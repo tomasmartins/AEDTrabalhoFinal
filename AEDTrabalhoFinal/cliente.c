@@ -13,8 +13,8 @@
 
 struct _cliente{
 	int numContribuinte;
-	char lav;
-	char mat[9];
+	int numCidadao;
+	char nome[50];
 };
 
 /***********************************************
@@ -25,13 +25,13 @@ struct _cliente{
  Retorno: 	apontador para a instancia criada
  Pre-condicoes: 	numC > 0 && (lav == 'N' || lav == 'E') && (mat != NULL)
  ***********************************************/
-cliente criaCliente(int numC, char lav,char * mat){
+cliente criaCliente(int numContribuinte, int numCidadao, char * nome){
     cliente c = (cliente) malloc(sizeof(struct _cliente));
     if (c == NULL) // verifica se foi possivel alocar a memoria
         return NULL;
-    strcpy(c->mat,mat);// Atribui os dados correspondentes ao cliente
-    c->lav = lav;
-    c->numC = numC;
+    strcpy(c->nome,nome);// Atribui os dados correspondentes ao cliente
+    c->numContribuinte = numContribuinte;
+    c->numCidadao = numCidadao;
     return c;
     
 }
@@ -41,8 +41,8 @@ cliente criaCliente(int numC, char lav,char * mat){
  Parametros: 	p - cliente a destruir
  Pre-condicoes: 	p != NULL
  ***********************************************/
-void destroiCliente(cliente p){
-    free(p);
+void destroiCliente(cliente c){
+    free(c);
 }
 
 /***********************************************
@@ -50,17 +50,17 @@ void destroiCliente(cliente p){
  Parametros: 	p - cliente a destruir do tipo void *
  Pre-condicoes: 	p != NULL
  ***********************************************/
-void destroiGenCliente(void * p){
-    destroiCliente((cliente) p);
+void destroiGenCliente(void * c){
+    destroiCliente((cliente) c);
 }
 
 /***********************************************
- lavagemCliente - retorna o tipo de lavagem escolhido pelo cliente.
+ lavagemCliente - retorna o nome do cliente.
  Parametros:		p - cliente
  Pre-condicoes: 	p != NULL
  ***********************************************/
-char lavagemCliente(cliente p){
-    return p->lav;
+char * nomeCliente(cliente c){
+    return c->nome;
 }
 
 /***********************************************
@@ -69,15 +69,15 @@ char lavagemCliente(cliente p){
  Pre-condicoes: 	p != NULL
  ***********************************************/
 int contribuinteCliente(cliente p){
-    return p->numC;
+    return p->numContribuinte;
 }
 
 /***********************************************
- matriculaCliente - retorna a matricula do cliente.
+ matriculaCliente - retorna a numero de cidadao do cliente.
  Parametros:		p - cliente
  Pre-condicoes: 	p != NULL
  ***********************************************/
-char* matriculaCliente(cliente p){
-    return p->mat;
+int cidadaoCliente(cliente p){
+    return p->numCidadao;
 }
 

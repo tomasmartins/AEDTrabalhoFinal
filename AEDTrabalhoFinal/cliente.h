@@ -18,41 +18,43 @@ Parametros: numC - numero contribuinte;
 Retorno: 	apontador para a instancia criada
 Pre-condicoes: 	numC > 0 && (lav == 'N' || lav == 'E') && (mat != NULL)
 ***********************************************/
-cliente criaCliente(int numC, char lav,char * mat);
+cliente criaCliente(int numContribuinte, int numCidadao, char * nome);
 
 /***********************************************
 destroiCliente - Liberta a memoria ocupada pela estrutura associada a cliente.
 Parametros: 	p - cliente a destruir
 Pre-condicoes: 	p != NULL
 ***********************************************/
-void destroiCliente(cliente p);
+void destroiCliente(cliente c);
 
 /***********************************************
 destroiGenCliente - Liberta a memoria ocupada pela estrutura associada a cliente.
 Parametros: 	p - cliente a destruir do tipo void *
 Pre-condicoes: 	p != NULL
 ***********************************************/
-void destroiGenCliente(void * p);
+void destroiGenCliente(void * c);
 
 /***********************************************
 lavagemCliente - retorna o tipo de lavagem escolhido pelo cliente.
 Parametros:		p - cliente
 Pre-condicoes: 	p != NULL
 ***********************************************/
-char lavagemCliente(cliente p);
+char * nomeCliente(cliente c);
 
 /***********************************************
 contribuinteCliente - retorna o numero de contribuinte do cliente.
 Parametros:		p - cliente
 Pre-condicoes: 	p != NULL
 ***********************************************/
-int contribuinteCliente(cliente p);
+int contribuinteCliente(cliente c);
 
 /***********************************************
-matriculaCliente - retorna a matricula do cliente.
-Parametros:		p - cliente
-Pre-condicoes: 	p != NULL
-***********************************************/
-char* matriculaCliente(cliente p);
+ contribuinteCliente - retorna o numero de cidadao do cliente.
+ Parametros:		p - cliente
+ Pre-condicoes: 	p != NULL
+ ***********************************************/
+int cidadaoCliente(cliente c);
+
+
 
 #endif /* PESSOA_H_ */
