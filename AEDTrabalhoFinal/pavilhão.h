@@ -18,7 +18,7 @@ Parametros: 	nPessoas - numero previsto de pessoas;
 Retorno: 	apontador para a instancia criada
 Pre-condicoes: nPessoas > 0 && precoNormal > 0
 ***********************************************/
-pavilhao criaPavilhao(int nPessoas, float precoNormal);
+pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float vSumo,int sBolo , float vBolo );
 
 /***********************************************
 destroiCantina - Liberta a memoria ocupada pela estrutura associada a cantina, assim como as pessoas na cantina, caso existam.
@@ -33,7 +33,7 @@ Parametros: 	c - pavilhao;	numC - numero de contribuinte;
 				mat - matricula;	lav - tipo de lavagem
 Pre-condicoes: c != NULL && mat != NULL && numC > 0 && ((lav == 'N') || (lav == 'E'))
 ***********************************************/
-void entraPavilhao(pavilhao c, int numC, char* mat, char lav);
+void entraPavilhao(pavilhao p, int numContribuinte, int numCidadao, char * nome);
 
 /***********************************************
 pessoaspavilhao - retorna o numero de pessoas na pavilhao.
@@ -41,22 +41,6 @@ Parametros: 	c - pavilhao
 Pre-condicoes: c != NULL
 ***********************************************/
 int pessoasPavilhao(pavilhao c);
-
-/***********************************************
-regLavagempavilhao - simula o fim da lavagem do veiculo que se encontra h‡ mais tempo na pavilhao, e retorna o cliente.
-Neste momento regista/actualiza a lavagem e o valor em caixa.
-Parametros: 	c - pavilhao
-Retorno: 	cliente ha mais tempo
-Pre-condicoes: c != NULL && pessoaspavilhao(c) > 0
-***********************************************/
-cliente regLavagemPavilhao(pavilhao c);
-
-/***********************************************
-lavagempavilhao - retorna o numero de lavagens registadas do tipo indicado.
-Parametros:	c - pavilhao; lav - tipo de lavagem
-Pre-condicoes: c != NULL && ((lav == 'N') || (lav == 'E'))
-***********************************************/
-int  lavagemPavilhao(pavilhao c, char lav);
 
 /***********************************************
 caixapavilhao - retorna o valor em caixa.

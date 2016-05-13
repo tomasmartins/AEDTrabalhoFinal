@@ -12,13 +12,10 @@
 #include "pavilhão.h"
 
 #define DOBRO 2
-
+#define MAXPAV
 struct _pavilhao{
    	fila pessoas; //colecao de clientes no sistema
-	int nNormal; //numero de lavagens normais registadas e pagas
-	int nEspecial; // numero de lavagens especiais registadas e pagas
-	float preco; // preco da lavagem normal
-	float caixa; //valor em caixa
+    float caixa; //valor em caixa
 };
 
 /***********************************************
@@ -29,19 +26,16 @@ struct _pavilhao{
  Pre-condicoes: nPessoas > 0 && precoNormal > 0
  ***********************************************/
 pavilhao criaPavilhao(int nPessoas, float precoNormal){
-    pavilhao c = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
-    if (c==NULL)                                           // verifica se esta memoria foi allocada
+    pavilhao p = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
+    if (p==NULL)                                           // verifica se esta memoria foi allocada
         return NULL;
-    c->pessoas = criaFila(nPessoas);                       // cria a fila de pessoas
-    if (c->pessoas==NULL){                                 // se não foi possivel criar a fila, vai libertar a memoria da pavilhao
-        free(c);
+    p->pessoas = criaFila(nPessoas);                       // cria a fila de pessoas
+    if (p->pessoas==NULL){                                 // se não foi possivel criar a fila, vai libertar a memoria da pavilhao
+        free(p);
         return NULL;
     }
-    c->nNormal = 0;  //inicializa o numero de lavagens e o dinheiro em caixa a 0
-    c->nEspecial = 0;
-    c->caixa =  0.0;
-    c->preco = precoNormal;//atribui o preço de cada lavagem
-    return c;
+    p->caixa =  0.0;
+    return p;
 }
 
 /***********************************************
@@ -60,8 +54,8 @@ void destroiPavilhao(pavilhao c){
  mat - matricula;	lav - tipo de lavagem
  Pre-condicoes: c != NULL && mat != NULL && numC > 0 && ((lav == 'N') || (lav == 'E'))
  ***********************************************/
-void entraPavilhao(pavilhao c, int numC, char* mat, char lav){
-    cliente p = criaCliente(numC, lav, mat);
+void entraPavilhao(pavilhao c, int numContribuinte, int numCidadao, char * nome){
+    cliente p = criaCliente(numContribuinte, numCidadao, nome);
     adicionaElemFila(c->pessoas, p);
 }
 
@@ -72,38 +66,6 @@ void entraPavilhao(pavilhao c, int numC, char* mat, char lav){
  ***********************************************/
 int pessoasPavilhao(pavilhao c){
     return tamanhoFila(c->pessoas);
-}
-
-/***********************************************
- regLavagempavilhao - simula o fim da lavagem do veiculo que se encontra há mais tempo na pavilhao, e retorna o cliente.
- Neste momento regista/actualiza a lavagem e o valor em caixa.
- Parametros: 	c - pavilhao
- Retorno: 	cliente ha mais tempo
- Pre-condicoes: c != NULL && pessoaspavilhao(c) > 0
- ***********************************************/
-cliente regLavagemPavilhao(pavilhao c){
-    cliente p = removeElemFila(c->pessoas);
-    if(lavagemCliente(p)=='N'){// incrementa o numero de lavagens efectuadas
-        c->nNormal++;
-        c->caixa += c->preco;// atualiza o valor em caixa
-    }
-    else{
-        c->nEspecial++;
-        c->caixa += (c->preco*DOBRO);// atualiza o valor em caixa
-    }
-    return p;
-}
-
-/***********************************************
- lavagempavilhao - retorna o numero de lavagens registadas do tipo indicado.
- Parametros:	c - pavilhao; lav - tipo de lavagem
- Pre-condicoes: c != NULL && ((lav == 'N') || (lav == 'E'))
- ***********************************************/
-int lavagemPavilhao(pavilhao c, char lav){
-    if(lav == 'E'){ //Se o for a lavagem especial retorna o numero de lavagem especiais se não for especial tem de ser Normal
-        return c->nEspecial;
-    }
-    return c->nNormal;
 }
 
 /***********************************************
