@@ -10,75 +10,85 @@
 /* TAD usado */
 
 #include "cliente.h"
-#include "maquina.h"
+#include "pavilhão.h"
 
 #define MAXLINHA 30
 
-void interpretador(maquina r);
+
+
+void interpretador(pavilhao r);
 
 int main(void){
     char linha[MAXLINHA];
     int capacidade;
     float preco;
     
+    setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
-    sscanf(linha,"%d %f",&capacidade,&preco);
-    if ((capacidade >0) && (preco >0)){
-        maquina  fct= criaMaquina(capacidade, preco);
+    sscanf(linha,"%d",&nTrampolins);
+    fgets(linha, MAXLINHA, stdin);
+    sscanf(linha,"%d %f",&sCafe,&vCafe);
+    fgets(linha, MAXLINHA, stdin);
+    sscanf(linha,"%d %f",&sSumo,&vSumo);
+    fgets(linha, MAXLINHA, stdin);
+    sscanf(linha,"%d %f",&sBolo,&vBolo);
+
+
+    if ((nTrampolins >0) && (sCafe >0) && (vCafe >0) && (sSumo >0) && (vSumo >0) && (sBolo >0) && (vBolo >0)){
+        pavilhao  fct= criaPavilhao(nTrampolins, sCafe, vCafe, sSumo, vSumo, sBolo, vBolo);
         printf("Abertura lavagem.\n");
         interpretador(fct);
-        destroiMaquina(fct);
+        destroiPavilhao(fct);
     }
     return 0;
 }
 
-void registaEntrada(maquina c, char * linha){
+void registaEntrada(pavilhao c, char * linha){
     char e, lav,mat[9];
     int id;
-    if (sscanf(linha,"%c %d %c %s",&e,&id,&lav,mat)!= 4)
-        printf("Dados invalidos.\n");
-    else{
+    sscanf(linha,"%d %d %s",&numCidadao,&numContribuinte,&nome);
+
         lav = toupper(lav);
         if (lav=='N'||lav=='E') {
-            entraMaquina(c, id, mat, lav);
+            entraPavilhao(numContribuinte, numCidadao, nome);
             printf("Entrada registada.\n");
-        }
+
         else
             printf("Dados invalidos.\n");
     }
 }
 
-void registaSaida(maquina c){
-    if (pessoasMaquina(c) == 0){
+void registaSaida(pavilhao c){
+    if (pessoasPavilhao(c) == 0){
         printf("Sem veiculos.\n");
     }
     else{
-        cliente aux = regLavagemMaquina(c);
+        cliente aux = regLavagemPavilhao(c);
         printf("Pessoa com numero contribuinte %d lavou veiculo com matricula %s.\n",contribuinteCliente(aux),matriculaCliente(aux));
         destroiCliente(aux);
     }
 }
 
-void dinheiroCaixa(maquina c){
-    printf("Caixa: %.2f euros.\n", caixaMaquina(c));
+void dinheiroCaixa(pavilhao c){
+    printf("Caixa: %.2f euros.\n", caixaPavilhao(c));
 }
 
-void lavVendidos(maquina c, char *linha){
+void lavVendidos(pavilhao c, char *linha){
     char n, tipo;
     if (sscanf(linha,"%c %c",&n,&tipo)!= 2)
         printf("Dados invalidos.\n");
     else{
         tipo = toupper(tipo);
         if (tipo=='N')
-            printf("Lavagem normal: %d\n", lavagemMaquina(c,tipo));
+            printf("Lavagem normal: %d\n", lavagemPavilhao(c,tipo));
         else if ( tipo=='E' )
-            printf("Lavagem especial: %d\n", lavagemMaquina(c,tipo));
+            printf("Lavagem especial: %d\n", lavagemPavilhao(c,tipo));
         else
             printf("Dados invalidos.\n");
     }
 }
 
-void interpretador(maquina c){
+void interpretador(pavilhao c){
     char linha[25], cmd;
     int numPessoas;
     
@@ -88,18 +98,20 @@ void interpretador(maquina c){
         /* Tratar comando */
         switch (cmd){
             case 'E': registaEntrada(c,linha);break;
-            case 'M': registaSaida(c);break;
-            case 'C': dinheiroCaixa(c); break;
+            case 'F': entradaFila(c);break;
+            case 'L': dinheiroCaixa(c); break;
             case 'N': lavVendidos(c,linha); break;
+            case 'F': entradaFila(c);break;
+            case 'F': entradaFila(c);break;
             default: printf("Comando invalido.\n");break;
         }
         fgets(linha,20,stdin);
         cmd = toupper(linha[0]);
     }
-    printf("Lavagem normal: %d\n", lavagemMaquina(c,'N'));
-    printf("Lavagem especial: %d\n",lavagemMaquina(c,'E'));
+    printf("Lavagem normal: %d\n", lavagemPavilhao(c,'N'));
+    printf("Lavagem especial: %d\n",lavagemPavilhao(c,'E'));
     dinheiroCaixa(c);
-    numPessoas = pessoasMaquina(c);
+    numPessoas = pessoasPavilhao(c);
     if (numPessoas != 0)
         printf("%d veiculos por lavar.\n",numPessoas);
 }
