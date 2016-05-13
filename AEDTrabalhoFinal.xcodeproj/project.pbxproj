@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		01DACD961CE6242800C9625E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACD951CE6242800C9625E /* main.c */; };
+		01DACDA21CE6296B00C9625E /* cliente.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACD9C1CE6296B00C9625E /* cliente.c */; };
+		01DACDA31CE6296B00C9625E /* fila.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACD9E1CE6296B00C9625E /* fila.c */; };
+		01DACDA41CE6296B00C9625E /* pavilhão.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDA01CE6296B00C9625E /* pavilhão.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,12 @@
 /* Begin PBXFileReference section */
 		01DACD921CE6242800C9625E /* AEDTrabalhoFinal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AEDTrabalhoFinal; sourceTree = BUILT_PRODUCTS_DIR; };
 		01DACD951CE6242800C9625E /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		01DACD9C1CE6296B00C9625E /* cliente.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cliente.c; sourceTree = "<group>"; };
+		01DACD9D1CE6296B00C9625E /* cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cliente.h; sourceTree = "<group>"; };
+		01DACD9E1CE6296B00C9625E /* fila.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fila.c; sourceTree = "<group>"; };
+		01DACD9F1CE6296B00C9625E /* fila.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fila.h; sourceTree = "<group>"; };
+		01DACDA01CE6296B00C9625E /* pavilhão.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "pavilhão.c"; sourceTree = "<group>"; };
+		01DACDA11CE6296B00C9625E /* pavilhão.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "pavilhão.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +66,12 @@
 		01DACD941CE6242800C9625E /* AEDTrabalhoFinal */ = {
 			isa = PBXGroup;
 			children = (
+				01DACD9C1CE6296B00C9625E /* cliente.c */,
+				01DACD9D1CE6296B00C9625E /* cliente.h */,
+				01DACD9E1CE6296B00C9625E /* fila.c */,
+				01DACD9F1CE6296B00C9625E /* fila.h */,
+				01DACDA01CE6296B00C9625E /* pavilhão.c */,
+				01DACDA11CE6296B00C9625E /* pavilhão.h */,
 				01DACD951CE6242800C9625E /* main.c */,
 			);
 			path = AEDTrabalhoFinal;
@@ -118,7 +133,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01DACDA31CE6296B00C9625E /* fila.c in Sources */,
+				01DACDA21CE6296B00C9625E /* cliente.c in Sources */,
 				01DACD961CE6242800C9625E /* main.c in Sources */,
+				01DACDA41CE6296B00C9625E /* pavilhão.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
