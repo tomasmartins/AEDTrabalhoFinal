@@ -1,68 +1,68 @@
 /*
- * maquina.h
+ * pavilhao.h
  *
  *  Created on: 16 de Abr de 2016
  *      Author: fernanda
  */
 
-#ifndef MAQUINA_H_
-#define MAQUINA_H_
+#ifndef pavilhao_H_
+#define pavilhao_H_
 
-/* Tipo do TAD maquina */
-typedef struct _maquina * maquina;
+/* Tipo do TAD pavilhao */
+typedef struct _pavilhao * pavilhao;
 
 /***********************************************
-criaMaquina - Criacao da instancia da estrutura associada a uma cantina.
+criapavilhao - Criacao da instancia da estrutura associada a uma cantina.
 Parametros: 	nPessoas - numero previsto de pessoas;
 		precoNormal - preco da lavagem normal (a especial Ž o dobro)
 Retorno: 	apontador para a instancia criada
 Pre-condicoes: nPessoas > 0 && precoNormal > 0
 ***********************************************/
-maquina criaMaquina(int nPessoas, float precoNormal);
+pavilhao criaPavilhao(int nPessoas, float precoNormal);
 
 /***********************************************
 destroiCantina - Liberta a memoria ocupada pela estrutura associada a cantina, assim como as pessoas na cantina, caso existam.
-Parametros: 	c - maquina a destruir
+Parametros: 	c - pavilhao a destruir
 Pre-condicoes: c != NULL
 ***********************************************/
-void destroiMaquina(maquina c);
+void destroiPavilhao(pavilhao c);
 
 /***********************************************
-entraMaquina - adiciona o veiculo com o contribuinte dado e a lavagem escolhida.
-Parametros: 	c - maquina;	numC - numero de contribuinte;
+entrapavilhao - adiciona o veiculo com o contribuinte dado e a lavagem escolhida.
+Parametros: 	c - pavilhao;	numC - numero de contribuinte;
 				mat - matricula;	lav - tipo de lavagem
 Pre-condicoes: c != NULL && mat != NULL && numC > 0 && ((lav == 'N') || (lav == 'E'))
 ***********************************************/
-void entraMaquina(maquina c, int numC, char* mat, char lav);
+void entraPavilhao(pavilhao c, int numC, char* mat, char lav);
 
 /***********************************************
-pessoasMaquina - retorna o numero de pessoas na maquina.
-Parametros: 	c - maquina
+pessoaspavilhao - retorna o numero de pessoas na pavilhao.
+Parametros: 	c - pavilhao
 Pre-condicoes: c != NULL
 ***********************************************/
-int pessoasMaquina(maquina c);
+int pessoasPavilhao(pavilhao c);
 
 /***********************************************
-regLavagemMaquina - simula o fim da lavagem do veiculo que se encontra h‡ mais tempo na maquina, e retorna o cliente.
+regLavagempavilhao - simula o fim da lavagem do veiculo que se encontra h‡ mais tempo na pavilhao, e retorna o cliente.
 Neste momento regista/actualiza a lavagem e o valor em caixa.
-Parametros: 	c - maquina
+Parametros: 	c - pavilhao
 Retorno: 	cliente ha mais tempo
-Pre-condicoes: c != NULL && pessoasMaquina(c) > 0
+Pre-condicoes: c != NULL && pessoaspavilhao(c) > 0
 ***********************************************/
-cliente regLavagemMaquina(maquina c);
+cliente regLavagemPavilhao(pavilhao c);
 
 /***********************************************
-lavagemMaquina - retorna o numero de lavagens registadas do tipo indicado.
-Parametros:	c - maquina; lav - tipo de lavagem
+lavagempavilhao - retorna o numero de lavagens registadas do tipo indicado.
+Parametros:	c - pavilhao; lav - tipo de lavagem
 Pre-condicoes: c != NULL && ((lav == 'N') || (lav == 'E'))
 ***********************************************/
-int  lavagemMaquina(maquina c, char lav);
+int  lavagemPavilhao(pavilhao c, char lav);
 
 /***********************************************
-caixaMaquina - retorna o valor em caixa.
-Parametros: 	c - maquina
+caixapavilhao - retorna o valor em caixa.
+Parametros: 	c - pavilhao
 Pre-condicoes: c != NULL
 ***********************************************/
-float  caixaMaquina(maquina c);
+float  caixaPavilhao(pavilhao c);
 
-#endif /* MAQUINA_H_ */
+#endif /* pavilhao_H_ */
