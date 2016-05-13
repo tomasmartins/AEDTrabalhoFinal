@@ -12,7 +12,7 @@
 
 
 struct _cliente{
-	int numC;
+	int numContribuinte;
 	char lav;
 	char mat[9];
 };
