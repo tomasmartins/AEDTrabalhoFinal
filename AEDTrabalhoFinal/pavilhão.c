@@ -12,7 +12,7 @@
 #include "pavilhão.h"
 
 #define DOBRO 2
-#define MAXPAV
+#define MAXPAV 1500
 struct _pavilhao{
    	fila pessoas; //colecao de clientes no sistema
     float caixa; //valor em caixa
@@ -25,11 +25,11 @@ struct _pavilhao{
  Retorno: 	apontador para a instancia criada
  Pre-condicoes: nPessoas > 0 && precoNormal > 0
  ***********************************************/
-pavilhao criaPavilhao(int nPessoas, float precoNormal){
+pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float vSumo,int sBolo , float vBolo){
     pavilhao p = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
     if (p==NULL)                                           // verifica se esta memoria foi allocada
         return NULL;
-    p->pessoas = criaFila(nPessoas);                       // cria a fila de pessoas
+    p->pessoas = criaFila(MAXPAV);                       // cria a fila de pessoas
     if (p->pessoas==NULL){                                 // se não foi possivel criar a fila, vai libertar a memoria da pavilhao
         free(p);
         return NULL;
