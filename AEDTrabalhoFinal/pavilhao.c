@@ -9,7 +9,7 @@
 
 #include "fila.h"
 #include "cliente.h"
-#include "pavilhão.h"
+#include "pavilhao.h"
 
 #define DOBRO 2
 

@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		015171B11CEA42F80040BC2E /* chaves.c in Sources */ = {isa = PBXBuildFile; fileRef = 015171A91CEA42F80040BC2E /* chaves.c */; };
+		015171B21CEA42F80040BC2E /* dicionario.c in Sources */ = {isa = PBXBuildFile; fileRef = 015171AB1CEA42F80040BC2E /* dicionario.c */; };
+		015171B31CEA42F80040BC2E /* pavilhao.c in Sources */ = {isa = PBXBuildFile; fileRef = 015171AE1CEA42F80040BC2E /* pavilhao.c */; };
 		01DACD961CE6242800C9625E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACD951CE6242800C9625E /* main.c */; };
 		01DACDB41CE6334500C9625E /* cliente.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDAE1CE6334500C9625E /* cliente.c */; };
 		01DACDB51CE6334500C9625E /* fila.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDB01CE6334500C9625E /* fila.c */; };
-		01DACDB61CE6334500C9625E /* pavilhão.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDB21CE6334500C9625E /* pavilhão.c */; };
 		01DACDB91CE63DF500C9625E /* trampolins.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDB71CE63DF500C9625E /* trampolins.c */; };
 /* End PBXBuildFile section */
 
@@ -27,14 +29,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		015171A91CEA42F80040BC2E /* chaves.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = chaves.c; sourceTree = "<group>"; };
+		015171AA1CEA42F80040BC2E /* chaves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chaves.h; sourceTree = "<group>"; };
+		015171AB1CEA42F80040BC2E /* dicionario.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dicionario.c; sourceTree = "<group>"; };
+		015171AC1CEA42F80040BC2E /* dicionario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dicionario.h; sourceTree = "<group>"; };
+		015171AD1CEA42F80040BC2E /* iterador.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iterador.h; sourceTree = "<group>"; };
+		015171AE1CEA42F80040BC2E /* pavilhao.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pavilhao.c; sourceTree = "<group>"; };
+		015171AF1CEA42F80040BC2E /* pavilhao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pavilhao.h; sourceTree = "<group>"; };
+		015171B01CEA42F80040BC2E /* tuplo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tuplo.h; sourceTree = "<group>"; };
 		01DACD921CE6242800C9625E /* AEDTrabalhoFinal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AEDTrabalhoFinal; sourceTree = BUILT_PRODUCTS_DIR; };
 		01DACD951CE6242800C9625E /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		01DACDAE1CE6334500C9625E /* cliente.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cliente.c; sourceTree = "<group>"; };
 		01DACDAF1CE6334500C9625E /* cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cliente.h; sourceTree = "<group>"; };
 		01DACDB01CE6334500C9625E /* fila.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fila.c; sourceTree = "<group>"; };
 		01DACDB11CE6334500C9625E /* fila.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fila.h; sourceTree = "<group>"; };
-		01DACDB21CE6334500C9625E /* pavilhão.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "pavilhão.c"; sourceTree = "<group>"; };
-		01DACDB31CE6334500C9625E /* pavilhão.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "pavilhão.h"; sourceTree = "<group>"; };
 		01DACDB71CE63DF500C9625E /* trampolins.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trampolins.c; sourceTree = "<group>"; };
 		01DACDB81CE63DF500C9625E /* trampolins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trampolins.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,12 +77,18 @@
 		01DACD941CE6242800C9625E /* AEDTrabalhoFinal */ = {
 			isa = PBXGroup;
 			children = (
+				015171A91CEA42F80040BC2E /* chaves.c */,
+				015171AA1CEA42F80040BC2E /* chaves.h */,
+				015171AB1CEA42F80040BC2E /* dicionario.c */,
+				015171AC1CEA42F80040BC2E /* dicionario.h */,
+				015171AD1CEA42F80040BC2E /* iterador.h */,
+				015171AE1CEA42F80040BC2E /* pavilhao.c */,
+				015171AF1CEA42F80040BC2E /* pavilhao.h */,
+				015171B01CEA42F80040BC2E /* tuplo.h */,
 				01DACDAE1CE6334500C9625E /* cliente.c */,
 				01DACDAF1CE6334500C9625E /* cliente.h */,
 				01DACDB01CE6334500C9625E /* fila.c */,
 				01DACDB11CE6334500C9625E /* fila.h */,
-				01DACDB21CE6334500C9625E /* pavilhão.c */,
-				01DACDB31CE6334500C9625E /* pavilhão.h */,
 				01DACD951CE6242800C9625E /* main.c */,
 				01DACDB71CE63DF500C9625E /* trampolins.c */,
 				01DACDB81CE63DF500C9625E /* trampolins.h */,
@@ -138,10 +152,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015171B21CEA42F80040BC2E /* dicionario.c in Sources */,
 				01DACDB51CE6334500C9625E /* fila.c in Sources */,
+				015171B11CEA42F80040BC2E /* chaves.c in Sources */,
 				01DACDB41CE6334500C9625E /* cliente.c in Sources */,
+				015171B31CEA42F80040BC2E /* pavilhao.c in Sources */,
 				01DACD961CE6242800C9625E /* main.c in Sources */,
-				01DACDB61CE6334500C9625E /* pavilhão.c in Sources */,
 				01DACDB91CE63DF500C9625E /* trampolins.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,7 @@
 /* TAD usado */
 
 #include "cliente.h"
-#include "pavilhão.h"
+#include "pavilhao.h"
 
 #define MAXLINHA 30
 
