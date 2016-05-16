@@ -10,7 +10,7 @@
 /* TAD usado */
 
 #include "cliente.h"
-#include "pavilh‹o.h"
+#include "pavilhão.h"
 
 #define MAXLINHA 30
 
@@ -20,8 +20,8 @@ void interpretador(pavilhao r);
 
 int main(void){
     char linha[MAXLINHA];
-    int capacidade;
-    float preco;
+    int nTrampolins,sCafe,sSumo,sBolo;
+    float vCafe,vSumo,vBolo;
     
     setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
@@ -44,18 +44,18 @@ int main(void){
 }
 
 void registaEntrada(pavilhao c, char * linha){
-    char e, lav,mat[9];
-    int id;
+    char nome[20];
+    int numCidadao, numContribuinte;
     sscanf(linha,"%d %d %s",&numCidadao,&numContribuinte,&nome);
 
-        lav = toupper(lav);
+      /*  lav = toupper(lav);
         if (lav=='N'||lav=='E') {
             entraPavilhao(numContribuinte, numCidadao, nome);
             printf("Entrada registada.\n");
 
         else
             printf("Dados invalidos.\n");
-    }
+    }*/
 }
 
 void registaSaida(pavilhao c){
