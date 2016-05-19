@@ -8,17 +8,24 @@
 #include <stdlib.h>
 
 #include "fila.h"
+#include "dicionario.h"
 #include "cliente.h"
 #include "pavilhao.h"
 
 #define DOBRO 2
-
+#define MAXPAV 2000
 struct _pavilhao{
-   	fila pessoas; //colecao de clientes no sistema
-	int nNormal; //numero de lavagens normais registadas e pagas
-	int nEspecial; // numero de lavagens especiais registadas e pagas
-	float preco; // preco da lavagem normal
-	float caixa; //valor em caixa
+   	dicionario pessoas; //colecao de clientes no sistema
+    dicionario trampolins;
+    fila filaTrampolins;//fila para os trampolins
+    float caixa; //valor em caixa
+    int nTrampolins;
+    int sCafe;
+    int sSumo;
+    int sBolo;
+    float vCafe;
+    float vSumo;
+    float vBolo;
 };
 
 /***********************************************
@@ -28,20 +35,34 @@ struct _pavilhao{
  Retorno: 	apontador para a instancia criada
  Pre-condicoes: nPessoas > 0 && precoNormal > 0
  ***********************************************/
-pavilhao criaPavilhao(int nPessoas, float precoNormal){
-    pavilhao c = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
-    if (c==NULL)                                           // verifica se esta memoria foi allocada
+pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float vSumo,int sBolo , float vBolo ){
+    pavilhao p = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
+    if (p==NULL)                                           // verifica se esta memoria foi allocada
         return NULL;
-    c->pessoas = criaFila(nPessoas);                       // cria a fila de pessoas
-    if (c->pessoas==NULL){                                 // se não foi possivel criar a fila, vai libertar a memoria da pavilhao
-        free(c);
+    p->pessoas = criaDicionario(MAXPAV,0);                       // cria a fila de pessoas
+    if (p->pessoas==NULL){                                 // se não foi possivel criar a fila, vai libertar a memoria da pavilhao
+        free(p);
         return NULL;
     }
-    c->nNormal = 0;  //inicializa o numero de lavagens e o dinheiro em caixa a 0
-    c->nEspecial = 0;
-    c->caixa =  0.0;
-    c->preco = precoNormal;//atribui o preço de cada lavagem
-    return c;
+    p->filaTrampolins = criaFila(nTrampolins);
+    if (p->filaTrampolins == NULL) {
+        free(p);
+        return NULL;
+    }
+    p->trampolins = criaDicionario(nTrampolins, 0);
+    if (p->trampolins == NULL) {
+        free(p);
+        return NULL;
+    }
+    p->caixa =  0.0;
+    p->sCafe = sCafe;
+    p->sSumo = sSumo;
+    p->sBolo = sBolo;
+    p->vCafe = vCafe;
+    p->vSumo = vSumo;
+    p->vBolo = vBolo;
+    p->nTrampolins = nTrampolins;
+    return p;
 }
 
 /***********************************************
@@ -50,19 +71,20 @@ pavilhao criaPavilhao(int nPessoas, float precoNormal){
  Pre-condicoes: c != NULL
  ***********************************************/
 void destroiPavilhao(pavilhao c){
-    destroiFilaEElems(c->pessoas, destroiGenCliente); // destroi a fila e os elementos (se estes existirem)
+    destroiDicEElems(c->pessoas, destroiGenCliente); // destroi a fila e os elementos (se estes existirem)
+    destroiDicEElems(c->trampolins, destroiGenCliente);
+    destroiFilaEElems(c->filaTrampolins, destroiGenCliente);
     free(c);
 }
 
 /***********************************************
  entrapavilhao - adiciona o veiculo com o contribuinte dado e a lavagem escolhida.
- Parametros: 	c - pavilhao;	numC - numero de contribuinte;
+ Parametros: 	c - pavilhao;	numContribuinte - numero de contribuinte;
  mat - matricula;	lav - tipo de lavagem
  Pre-condicoes: c != NULL && mat != NULL && numC > 0 && ((lav == 'N') || (lav == 'E'))
  ***********************************************/
-void entraPavilhao(pavilhao c, int numC, char* mat, char lav){
-    cliente p = criaCliente(numC, lav, mat);
-    adicionaElemFila(c->pessoas, p);
+void entraPavilhao(pavilhao c, int numContribuinte, int numCidadao, char * nome){
+    adicionaElemDicionario(c->pessoas, &numCidadao, criaCliente(numContribuinte, numCidadao, nome));
 }
 
 /***********************************************
@@ -71,39 +93,7 @@ void entraPavilhao(pavilhao c, int numC, char* mat, char lav){
  Pre-condicoes: c != NULL
  ***********************************************/
 int pessoasPavilhao(pavilhao c){
-    return tamanhoFila(c->pessoas);
-}
-
-/***********************************************
- regLavagempavilhao - simula o fim da lavagem do veiculo que se encontra há mais tempo na pavilhao, e retorna o cliente.
- Neste momento regista/actualiza a lavagem e o valor em caixa.
- Parametros: 	c - pavilhao
- Retorno: 	cliente ha mais tempo
- Pre-condicoes: c != NULL && pessoaspavilhao(c) > 0
- ***********************************************/
-cliente regLavagemPavilhao(pavilhao c){
-    cliente p = removeElemFila(c->pessoas);
-    if(lavagemCliente(p)=='N'){// incrementa o numero de lavagens efectuadas
-        c->nNormal++;
-        c->caixa += c->preco;// atualiza o valor em caixa
-    }
-    else{
-        c->nEspecial++;
-        c->caixa += (c->preco*DOBRO);// atualiza o valor em caixa
-    }
-    return p;
-}
-
-/***********************************************
- lavagempavilhao - retorna o numero de lavagens registadas do tipo indicado.
- Parametros:	c - pavilhao; lav - tipo de lavagem
- Pre-condicoes: c != NULL && ((lav == 'N') || (lav == 'E'))
- ***********************************************/
-int lavagemPavilhao(pavilhao c, char lav){
-    if(lav == 'E'){ //Se o for a lavagem especial retorna o numero de lavagem especiais se não for especial tem de ser Normal
-        return c->nEspecial;
-    }
-    return c->nNormal;
+    return tamanhoDicionario(c->pessoas);
 }
 
 /***********************************************
@@ -113,4 +103,25 @@ int lavagemPavilhao(pavilhao c, char lav){
  ***********************************************/
 float caixaPavilhao(pavilhao c){
     return c->caixa;
+}
+
+cliente saiPavilhao(pavilhao p, int numCidadao){
+    cliente c;
+    c = removeElemDicionario(p->pessoas, &numCidadao);
+    return c;
+}
+void entraFilaTrampolins(pavilhao p , int numCidadao){
+    adicionaElemFila(p->filaTrampolins,elementoDicionario(p->pessoas, &numCidadao));
+}
+
+int entraTrampolins(pavilhao p){
+    int numPessoas;
+    cliente c ;
+    while(p->nTrampolins == 0 || vaziaFila(p->filaTrampolins)){
+        c = removeElemFila(p->filaTrampolins);
+        adicionaElemDicionario(p->pessoas, cidadaoCliente(c),c);
+        numPessoas++;
+        p->nTrampolins--;
+    }
+    return numPessoas;
 }

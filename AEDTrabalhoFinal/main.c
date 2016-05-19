@@ -64,7 +64,7 @@ void registaSaida(pavilhao c){
     }
     else{
         cliente aux = regLavagemPavilhao(c);
-        printf("Pessoa com numero contribuinte %d lavou veiculo com matricula %s.\n",contribuinteCliente(aux),matriculaCliente(aux));
+        printf("Pessoa com numero contribuinte %d lavou veiculo com matricula %d.\n",contribuinteCliente(aux),matriculaCliente(aux));
         destroiCliente(aux);
     }
 }
@@ -101,7 +101,7 @@ void interpretador(pavilhao c){
             case 'F': entradaFila(c);break;
             case 'L': dinheiroCaixa(c); break;
             case 'N': lavVendidos(c,linha); break;
-            case 'F': entradaFila(c);break;
+            case 'a': entradaFila(c);break;
             case 'F': entradaFila(c);break;
             default: printf("Comando invalido.\n");break;
         }

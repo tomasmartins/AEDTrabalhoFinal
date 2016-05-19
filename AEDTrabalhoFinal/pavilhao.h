@@ -49,4 +49,16 @@ Pre-condicoes: c != NULL
 ***********************************************/
 float  caixaPavilhao(pavilhao c);
 
+/***********************************************
+ saipavilhao - adiciona o veiculo com o contribuinte dado e a lavagem escolhida.
+ Parametros: 	c - pavilhao;	numC - numero de contribuinte;
+ mat - matricula;	lav - tipo de lavagem
+ Pre-condicoes: c != NULL && mat != NULL && numC > 0 && ((lav == 'N') || (lav == 'E'))
+ ***********************************************/
+cliente saiPavilhao(pavilhao p, int numContribuinte );
+
+void entraFilaTrampolins(pavilhao p , int numContribuinte);
+
+int entraTrampolins(pavilhao p);
+
 #endif /* pavilhao_H_ */

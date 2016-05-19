@@ -3,6 +3,7 @@
  */
 #ifndef _H_DICIONARIO
 #define _H_DICIONARIO
+#include "iterador.h"
 /* Tipo de dados: dicionario ---> os elementos não podem ser repetidos com base num identificador (chave) dos elementos */
 typedef struct _dicionario * dicionario;
 

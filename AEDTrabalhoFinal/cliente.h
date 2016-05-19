@@ -53,7 +53,7 @@ int contribuinteCliente(cliente c);
  Parametros:		p - cliente
  Pre-condicoes: 	p != NULL
  ***********************************************/
-int cidadaoCliente(cliente c);
+void * cidadaoCliente(cliente c);
 
 
 

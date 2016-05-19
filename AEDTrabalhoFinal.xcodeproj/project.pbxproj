@@ -13,7 +13,6 @@
 		01DACD961CE6242800C9625E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACD951CE6242800C9625E /* main.c */; };
 		01DACDB41CE6334500C9625E /* cliente.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDAE1CE6334500C9625E /* cliente.c */; };
 		01DACDB51CE6334500C9625E /* fila.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDB01CE6334500C9625E /* fila.c */; };
-		01DACDB91CE63DF500C9625E /* trampolins.c in Sources */ = {isa = PBXBuildFile; fileRef = 01DACDB71CE63DF500C9625E /* trampolins.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,8 +42,6 @@
 		01DACDAF1CE6334500C9625E /* cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cliente.h; sourceTree = "<group>"; };
 		01DACDB01CE6334500C9625E /* fila.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fila.c; sourceTree = "<group>"; };
 		01DACDB11CE6334500C9625E /* fila.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fila.h; sourceTree = "<group>"; };
-		01DACDB71CE63DF500C9625E /* trampolins.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trampolins.c; sourceTree = "<group>"; };
-		01DACDB81CE63DF500C9625E /* trampolins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trampolins.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,8 +87,6 @@
 				01DACDB01CE6334500C9625E /* fila.c */,
 				01DACDB11CE6334500C9625E /* fila.h */,
 				01DACD951CE6242800C9625E /* main.c */,
-				01DACDB71CE63DF500C9625E /* trampolins.c */,
-				01DACDB81CE63DF500C9625E /* trampolins.h */,
 			);
 			path = AEDTrabalhoFinal;
 			sourceTree = "<group>";
@@ -158,7 +153,6 @@
 				01DACDB41CE6334500C9625E /* cliente.c in Sources */,
 				015171B31CEA42F80040BC2E /* pavilhao.c in Sources */,
 				01DACD961CE6242800C9625E /* main.c in Sources */,
-				01DACDB91CE63DF500C9625E /* trampolins.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

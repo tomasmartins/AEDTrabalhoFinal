@@ -15,6 +15,7 @@ struct _cliente{
 	int numContribuinte;
 	int numCidadao;
 	char nome[50];
+    float preco;
 };
 
 /***********************************************
@@ -32,6 +33,7 @@ cliente criaCliente(int numContribuinte, int numCidadao, char * nome){
     strcpy(c->nome,nome);// Atribui os dados correspondentes ao cliente
     c->numContribuinte = numContribuinte;
     c->numCidadao = numCidadao;
+    c->preco = 0.0;
     return c;
     
 }
@@ -77,7 +79,11 @@ int contribuinteCliente(cliente p){
  Parametros:		p - cliente
  Pre-condicoes: 	p != NULL
  ***********************************************/
-int cidadaoCliente(cliente p){
-    return p->numCidadao;
+void * cidadaoCliente(cliente p){
+    return &(p->numCidadao);
+}
+
+float precoCliente(cliente c){
+    return c->preco;
 }
 
