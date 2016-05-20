@@ -46,11 +46,14 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
     }
     p->filaTrampolins = criaFila(nTrampolins);
     if (p->filaTrampolins == NULL) {
+        destroiDicionario(p->pessoas);
         free(p);
         return NULL;
     }
     p->trampolins = criaDicionario(nTrampolins, 0);
     if (p->trampolins == NULL) {
+        destroiDicionario(p->pessoas);
+        destroiFila(p->filaTrampolins);
         free(p);
         return NULL;
     }
@@ -95,7 +98,6 @@ void entraPavilhao(pavilhao c, int numContribuinte, int numCidadao, char * nome)
 int pessoasPavilhao(pavilhao c){
     return tamanhoDicionario(c->pessoas);
 }
-
 /***********************************************
  caixapavilhao - retorna o valor em caixa.
  Parametros: 	c - pavilhao
@@ -117,9 +119,9 @@ void entraFilaTrampolins(pavilhao p , int numCidadao){
 int entraTrampolins(pavilhao p){
     int numPessoas;
     cliente c ;
-    while(p->nTrampolins == 0 || vaziaFila(p->filaTrampolins)){
+    while(!(p->nTrampolins == 0 || vaziaFila(p->filaTrampolins))){
         c = removeElemFila(p->filaTrampolins);
-        adicionaElemDicionario(p->pessoas, cidadaoCliente(c),c);
+        adicionaElemDicionario(p->trampolins, cidadaoCliente(c),c);
         numPessoas++;
         p->nTrampolins--;
     }
