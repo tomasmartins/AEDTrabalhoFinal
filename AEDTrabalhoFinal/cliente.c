@@ -18,7 +18,7 @@ struct _cliente{
     int mEntrada;
     int mTotais;
     float conta;
-    int isTrampolins;
+    int isTrampolin;
 };
 
 /***********************************************
@@ -39,7 +39,7 @@ cliente criaCliente(int numContribuinte, int numCidadao, char * nome){
     c->mEntrada = 0;
     c->mTotais = 0;
     c->conta = 0.0;
-    c->isTrampolins = 0;
+    c->isTrampolin = 0;
     return c;
     
 }
@@ -109,12 +109,12 @@ void adicionaConta(cliente c, float adConta){
     c->conta += adConta;
 }
 void setTrampolins(cliente c){
-    c->isTrampolins = 1;
+    c->isTrampolin = 1;
 }
 void removeTrampolins(cliente c){
-    c->isTrampolins = 0;
+    c->isTrampolin = 0;
 }
 
 int isTrampolins(cliente c){
-    return c->isTrampolins;
+    return c->isTrampolin;
 }

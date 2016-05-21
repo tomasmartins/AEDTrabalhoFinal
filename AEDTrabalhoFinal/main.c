@@ -43,7 +43,7 @@ int main(void){
     
     if ((nTrampolins >0) && (sCafe >0) && (vCafe >0) && (sSumo >0) && (vSumo >0) && (sBolo >0) && (vBolo >0)){
         pavilhao  fct= criaPavilhao(nTrampolins, sCafe, vCafe, sSumo, vSumo, sBolo, vBolo);
-        printf("Abertura lavagem.\n");
+        printf("Abertura pavilhao.\n");
         interpretador(fct);
         destroiPavilhao(fct);
     }
@@ -140,10 +140,11 @@ void registaCompra(pavilhao p, char * linha){
     char tipoConsumo,l;
     int quantidade, numCidadao;
     cliente c;
-    
+
     if (sscanf(linha,"%c %c %d %d",&l,&tipoConsumo,&quantidade,&numCidadao)!=4)
         printf("Dados invalidos.\n");
     else{
+        c = clienteEmPavilhao(p, numCidadao);
         if(isTrampolins(c))
             printf("Venda nao autorizada.\n");
         else{

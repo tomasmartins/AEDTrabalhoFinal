@@ -111,7 +111,7 @@ float caixaPavilhao(pavilhao c){
 }
 
 cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
-    cliente c;
+    cliente c = NULL;
     if (existeElemDicionario(p->pessoas, &numCidadao)) {
         c = elementoDicionario(p->pessoas, &numCidadao);
         if (isTrampolins(c)) {
