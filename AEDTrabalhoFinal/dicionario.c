@@ -200,7 +200,6 @@ Retorno: iterador das chaves dos elementos no dicionario
 Pre-condicoes: d != NULL && vazioDicionario(d)!=1
 ***********************************************/
 iterador iteradorChaveDicionario(dicionario d){
-
 	int i;
 	// vector com as chaves dos elementos do dicionário
 	void * * aux = (void * *) malloc(sizeof(void *)* d->numElems);

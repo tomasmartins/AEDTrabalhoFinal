@@ -85,7 +85,20 @@ void entraTrampolinsP(pavilhao c){
     
 }
 
-
+void pessoaTrampolins(pavilhao p , char * linha){
+    int nTrampolin;
+    char * nome;
+    int perm;
+    sscanf(linha,"%d",&nTrampolin);
+    perm = pessoaTrampolin(p, nome, nTrampolin);
+    if (perm == 0) {
+        printf("Trampolim inexistente.");
+    }else if (perm == 1){
+        printf("Trampolim vazio.");
+    }else{
+        printf("Pessoa %s esta no trampolim.",nome);
+    }
+}
 //************************************************************************
 //************************************************************************
 //************************************************************************

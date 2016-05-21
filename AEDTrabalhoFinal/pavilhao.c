@@ -21,6 +21,7 @@ struct _pavilhao{
     fila filaTrampolins;//fila para os trampolins
     float caixa; //valor em caixa
     int nTrampolins;
+    int nTrampolinsLivres;
     int sCafe;
     int sSumo;
     int sBolo;
@@ -66,6 +67,7 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
     p->vSumo = vSumo;
     p->vBolo = vBolo;
     p->nTrampolins = nTrampolins;
+    p->nTrampolinsLivres = nTrampolins ;
     return p;
 }
 
@@ -133,6 +135,7 @@ void adicionaVecTrampolin(pavilhao p , cliente c){
     for (i = 0; i < p->nTrampolins; i++) {
         if (p->trampolins[i] == NULL) {
             p->trampolins[i] = c;
+            break;
         }
     }
 }
@@ -154,11 +157,12 @@ cliente removeVecTrampolin(pavilhao p, int numCidadao){
 int entraTrampolins(pavilhao p, int mEntrada){
     int numPessoas;
     cliente c = NULL;
-    while(!(p->nTrampolins == 0 || vaziaFila(p->filaTrampolins))){
+    while(!(p->nTrampolinsLivres == 0 || vaziaFila(p->filaTrampolins))){
         c = removeElemFila(p->filaTrampolins);
         entraTempo(c, mEntrada);
         adicionaVecTrampolin(p,c);
         numPessoas++;
+        p->nTrampolinsLivres --;
     }
     return numPessoas;
 }
@@ -177,6 +181,8 @@ void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
     adicionaTempo(c,nTempo - mEntrada(c));
     adicionaElemDicionario(p->pessoas,&aux, c);
     removeTrampolins(c);
+    p->nTrampolinsLivres++;
+
 }
 
 int existePavilhao(pavilhao p , int numCidadao){
@@ -239,4 +245,23 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
         adicionaConta(c, conta);
         return 1;
     }
+}
+
+void fechaPavilhao(pavilhao p){
+    iterador it = iteradorChaveDicionario(p->pessoas);
+    cliente c;
+    int numCidadao;
+    int perm;
+    while (temSeguinteIterador(it)) {
+        numCidadao = (int)seguinteIterador(it);
+        c = saiPavilhao(p, numCidadao, &perm);
+        if (perm == 0 ) {
+            saiTrampolins(p, 24*60, numCidadao);
+            c = saiPavilhao(p, numCidadao, &perm);
+        }
+    }
+    destroiIterador(it);
+}
+int trampolinsLivres(pavilhao c){
+    return c->nTrampolinsLivres;
 }

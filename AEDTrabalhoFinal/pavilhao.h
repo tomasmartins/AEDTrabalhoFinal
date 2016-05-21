@@ -79,6 +79,14 @@ int stockSumo(pavilhao c);
  ***********************************************/
 int stockBolo(pavilhao c);
 
+void saiTrampolins(pavilhao p, int nTempo , int numCidadao);
 int existePavilhao(pavilhao p , int numCidadao);
-
+int existePavilhao(pavilhao p , int numCidadao);
+int pessoaTrampolin(pavilhao p, char * nome, int nTrampolim);
+float sumo(pavilhao p ,int quantidade);
+float cafe(pavilhao p, int quantidade);
+float bolo(pavilhao p, int quantidade);
+void fechaPavilhao(pavilhao p);
+int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao);
+int trampolinsLivres(pavilhao c);
 #endif /* pavilhao_H_ */
