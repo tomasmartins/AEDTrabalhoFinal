@@ -55,10 +55,30 @@ float  caixaPavilhao(pavilhao c);
  mat - matricula;	lav - tipo de lavagem
  Pre-condicoes: c != NULL && mat != NULL && numC > 0 && ((lav == 'N') || (lav == 'E'))
  ***********************************************/
-cliente saiPavilhao(pavilhao p, int numContribuinte );
+cliente saiPavilhao(pavilhao p, int numCidadao, int * perm);
 
 void entraFilaTrampolins(pavilhao p , int numContribuinte);
 
-int entraTrampolins(pavilhao p);
+int entraTrampolins(pavilhao p, int mEntrada);
+/***********************************************
+ stockCafe - retorna o valor do stock do cafe.
+ Parametros: 	c - pavilhao
+ Pre-condicoes: c != NULL
+ ***********************************************/
+int stockCafe(pavilhao c);
+/***********************************************
+ stockSumo - retorna o valor do stock do Sumo.
+ Parametros: 	c - pavilhao
+ Pre-condicoes: c != NULL
+ ***********************************************/
+int stockSumo(pavilhao c);
+/***********************************************
+ stockBolo - retorna o valor do stock do Bolo.
+ Parametros: 	c - pavilhao
+ Pre-condicoes: c != NULL
+ ***********************************************/
+int stockBolo(pavilhao c);
+
+int existePavilhao(pavilhao p , int numCidadao);
 
 #endif /* pavilhao_H_ */

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010260781CEF5DDC0075339A /* tuplo.c in Sources */ = {isa = PBXBuildFile; fileRef = 010260771CEF5DDC0075339A /* tuplo.c */; };
+		0102607A1CEF5E730075339A /* iterador.c in Sources */ = {isa = PBXBuildFile; fileRef = 010260791CEF5E730075339A /* iterador.c */; };
 		015171B11CEA42F80040BC2E /* chaves.c in Sources */ = {isa = PBXBuildFile; fileRef = 015171A91CEA42F80040BC2E /* chaves.c */; };
 		015171B21CEA42F80040BC2E /* dicionario.c in Sources */ = {isa = PBXBuildFile; fileRef = 015171AB1CEA42F80040BC2E /* dicionario.c */; };
 		015171B31CEA42F80040BC2E /* pavilhao.c in Sources */ = {isa = PBXBuildFile; fileRef = 015171AE1CEA42F80040BC2E /* pavilhao.c */; };
@@ -28,6 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		010260771CEF5DDC0075339A /* tuplo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tuplo.c; sourceTree = "<group>"; };
+		010260791CEF5E730075339A /* iterador.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = iterador.c; sourceTree = "<group>"; };
 		015171A91CEA42F80040BC2E /* chaves.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = chaves.c; sourceTree = "<group>"; };
 		015171AA1CEA42F80040BC2E /* chaves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chaves.h; sourceTree = "<group>"; };
 		015171AB1CEA42F80040BC2E /* dicionario.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dicionario.c; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 		01DACD941CE6242800C9625E /* AEDTrabalhoFinal */ = {
 			isa = PBXGroup;
 			children = (
+				010260791CEF5E730075339A /* iterador.c */,
+				010260771CEF5DDC0075339A /* tuplo.c */,
 				015171A91CEA42F80040BC2E /* chaves.c */,
 				015171AA1CEA42F80040BC2E /* chaves.h */,
 				015171AB1CEA42F80040BC2E /* dicionario.c */,
@@ -148,9 +154,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				015171B21CEA42F80040BC2E /* dicionario.c in Sources */,
+				010260781CEF5DDC0075339A /* tuplo.c in Sources */,
 				01DACDB51CE6334500C9625E /* fila.c in Sources */,
 				015171B11CEA42F80040BC2E /* chaves.c in Sources */,
 				01DACDB41CE6334500C9625E /* cliente.c in Sources */,
+				0102607A1CEF5E730075339A /* iterador.c in Sources */,
 				015171B31CEA42F80040BC2E /* pavilhao.c in Sources */,
 				01DACD961CE6242800C9625E /* main.c in Sources */,
 			);

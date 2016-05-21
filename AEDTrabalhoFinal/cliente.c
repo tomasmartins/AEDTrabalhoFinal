@@ -17,7 +17,8 @@ struct _cliente{
 	char nome[50];
     int mEntrada;
     int mTotais;
-    float preco;
+    float conta;
+    int isTrampolins;
 };
 
 /***********************************************
@@ -37,7 +38,8 @@ cliente criaCliente(int numContribuinte, int numCidadao, char * nome){
     c->numCidadao = numCidadao;
     c->mEntrada = 0;
     c->mTotais = 0;
-    c->preco = 0.0;
+    c->conta = 0.0;
+    c->isTrampolins = 0;
     return c;
     
 }
@@ -83,16 +85,36 @@ int contribuinteCliente(cliente p){
  Parametros:		p - cliente
  Pre-condicoes: 	p != NULL
  ***********************************************/
-void * cidadaoCliente(cliente p){
-    return &(p->numCidadao);
+int cidadaoCliente(cliente p){
+    return p->numCidadao;
 }
-
 float precoCliente(cliente c){
-    return c->preco;
+    return c->conta;
 }
-
 void entraTempo(cliente c , int mEntrada){
-    
+    c->mEntrada = mEntrada;
 }
 
+int mEntrada(cliente c){
+    return c->mEntrada;
+}
+void adicionaTempo(cliente c , int adTotal){
+    c->mTotais += adTotal;
+}
 
+int mTotais(cliente c){
+    return c->mTotais;
+}
+void adicionaConta(cliente c, float adConta){
+    c->conta += adConta;
+}
+void setTrampolins(cliente c){
+    c->isTrampolins = 1;
+}
+void removeTrampolins(cliente c){
+    c->isTrampolins = 0;
+}
+
+int isTrampolins(cliente c){
+    return c->isTrampolins;
+}

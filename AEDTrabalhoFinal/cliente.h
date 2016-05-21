@@ -53,8 +53,17 @@ int contribuinteCliente(cliente c);
  Parametros:		p - cliente
  Pre-condicoes: 	p != NULL
  ***********************************************/
-void * cidadaoCliente(cliente c);
-
-
-
+int cidadaoCliente(cliente c);
+float precoCliente(cliente c);
+void entraTempo(cliente c , int mEntrada);
+void adicionaTempo(cliente c , int adTotal);
+int mTotais(cliente c);
+void adicionaConta(cliente c, float adConta);
+int mEntrada(cliente c);
+void adicionaTempo(cliente c , int adTotal);
+int mTotais(cliente c);
+void adicionaConta(cliente c, float adConta);
+void setTrampolins(cliente c);
+void removeTrampolins(cliente c);
+int isTrampolins(cliente c);
 #endif /* PESSOA_H_ */

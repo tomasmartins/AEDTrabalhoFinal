@@ -11,6 +11,13 @@
 
 #include "cliente.h"
 #include "pavilhao.h"
+#include "tuplo.h"
+#include "chaves.h"
+#include "cliente.h"
+#include "dicionario.h"
+#include "cliente.h"
+#include "fila.h"
+#include "iterador.h"
 
 #define MAXLINHA 30
 
@@ -32,11 +39,11 @@ int main(void){
     sscanf(linha,"%d %f",&sSumo,&vSumo);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d %f",&sBolo,&vBolo);
-
-
+    
+    
     if ((nTrampolins >0) && (sCafe >0) && (vCafe >0) && (sSumo >0) && (vSumo >0) && (sBolo >0) && (vBolo >0)){
         pavilhao  fct= criaPavilhao(nTrampolins, sCafe, vCafe, sSumo, vSumo, sBolo, vBolo);
-        printf("Abertura lavagem.\n");
+        printf("Abertura Pavilhao.\n");
         interpretador(fct);
         destroiPavilhao(fct);
     }
@@ -44,53 +51,49 @@ int main(void){
 }
 
 void registaEntrada(pavilhao c, char * linha){
-    char nome[20];
+    char * nome;
     int numCidadao, numContribuinte;
-    sscanf(linha,"%d %d %s",&numCidadao,&numContribuinte,&nome);
-
-      /*  lav = toupper(lav);
-        if (lav=='N'||lav=='E') {
-            entraPavilhao(numContribuinte, numCidadao, nome);
-            printf("Entrada registada.\n");
-
-        else
-            printf("Dados invalidos.\n");
-    }*/
-}
-
-void registaSaida(pavilhao c){
-    if (pessoasPavilhao(c) == 0){
-        printf("Sem veiculos.\n");
-    }
+    sscanf(linha,"%d %d %s",&numCidadao,&numContribuinte,nome);
+    if(existePavilhao(c, numCidadao))
+        printf("Pessoa ja no pavilhao.\n");
     else{
-        cliente aux = regLavagemPavilhao(c);
-        printf("Pessoa com numero contribuinte %d lavou veiculo com matricula %d.\n",contribuinteCliente(aux),matriculaCliente(aux));
-        destroiCliente(aux);
+        entraPavilhao(c, numContribuinte, numCidadao, nome);
+        printf("Entrada autorizada.\n");
     }
+    
 }
+//***********************************************************************
 
-void dinheiroCaixa(pavilhao c){
-    printf("Caixa: %.2f euros.\n", caixaPavilhao(c));
-}
-
-void lavVendidos(pavilhao c, char *linha){
-    char n, tipo;
-    if (sscanf(linha,"%c %c",&n,&tipo)!= 2)
-        printf("Dados invalidos.\n");
+void entradaFila(pavilhao c, char * linha){
+    int numCidadao;
+    sscanf(linha,"%d",&numCidadao);
+    
+    if((existePavilhao(c, numCidadao))!=1)
+        printf("Pessoa nao esta no pavilhao.\n");
     else{
-        tipo = toupper(tipo);
-        if (tipo=='N')
-            printf("Lavagem normal: %d\n", lavagemPavilhao(c,tipo));
-        else if ( tipo=='E' )
-            printf("Lavagem especial: %d\n", lavagemPavilhao(c,tipo));
-        else
-            printf("Dados invalidos.\n");
+        entraFilaTrampolins(c, numCidadao);
+        printf("Entrada autorizada.\n");
     }
+    
 }
+
+//************************************************************************
+
+void entraTrampolinsP(pavilhao c){
+    
+    
+    
+}
+
+
+//************************************************************************
+//************************************************************************
+//************************************************************************
+//************************************************************************
+
 
 void interpretador(pavilhao c){
     char linha[25], cmd;
-    int numPessoas;
     
     fgets(linha,20,stdin);
     cmd = toupper(linha[0]);
@@ -98,20 +101,21 @@ void interpretador(pavilhao c){
         /* Tratar comando */
         switch (cmd){
             case 'E': registaEntrada(c,linha);break;
-            case 'F': entradaFila(c);break;
-            case 'L': dinheiroCaixa(c); break;
-            case 'N': lavVendidos(c,linha); break;
-            case 'a': entradaFila(c);break;
-            case 'F': entradaFila(c);break;
+            case 'F': entradaFila(c, linha);break;
+            case 'L': entraTrampolinsP(c); break;
+            case 'T': ; break;
+            case 'S': ;break;
+            case 'V': ;break;
+            case 'Q': ;break;
+            case 'C': ;break;
             default: printf("Comando invalido.\n");break;
         }
         fgets(linha,20,stdin);
         cmd = toupper(linha[0]);
     }
-    printf("Lavagem normal: %d\n", lavagemPavilhao(c,'N'));
-    printf("Lavagem especial: %d\n",lavagemPavilhao(c,'E'));
-    dinheiroCaixa(c);
-    numPessoas = pessoasPavilhao(c);
-    if (numPessoas != 0)
-        printf("%d veiculos por lavar.\n",numPessoas);
+    printf("Caixa: %.2f euros.\n", caixaPavilhao(c));
+    printf("Stock cafÈ: %d.\n",stockCafe(c));
+    printf("Stock sumo: %d.\n",stockSumo(c));
+    printf("Stock bolo: %d.\n",stockBolo(c));
+    
 }
