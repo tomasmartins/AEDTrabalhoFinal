@@ -54,7 +54,7 @@ int contribuinteCliente(cliente c);
  Pre-condicoes: 	p != NULL
  ***********************************************/
 int cidadaoCliente(cliente c);
-float precoCliente(cliente c);
+float contaCliente(cliente c);
 void entraTempo(cliente c , int mEntrada);
 void adicionaTempo(cliente c , int adTotal);
 int mTotais(cliente c);

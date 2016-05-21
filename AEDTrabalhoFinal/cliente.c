@@ -88,7 +88,7 @@ int contribuinteCliente(cliente p){
 int cidadaoCliente(cliente p){
     return p->numCidadao;
 }
-float precoCliente(cliente c){
+float contaCliente(cliente c){
     return c->conta;
 }
 void entraTempo(cliente c , int mEntrada){

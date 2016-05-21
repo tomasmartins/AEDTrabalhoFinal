@@ -265,3 +265,10 @@ void fechaPavilhao(pavilhao p){
 int trampolinsLivres(pavilhao c){
     return c->nTrampolinsLivres;
 }
+
+cliente clienteEmPavilhao(pavilhao p, int numCidadao){
+    return elementoDicionario(p->pessoas, &numCidadao);
+}
+int vaziaFilaTrampolins(pavilhao c){
+    return vaziaFila(c->filaTrampolins);
+}

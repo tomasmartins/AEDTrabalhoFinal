@@ -21,8 +21,6 @@
 
 #define MAXLINHA 30
 
-
-
 void interpretador(pavilhao r);
 
 int main(void){
@@ -51,9 +49,9 @@ int main(void){
 }
 
 void registaEntrada(pavilhao c, char * linha){
-    char * nome;
+    char nome[50] , l;
     int numCidadao, numContribuinte;
-    sscanf(linha,"%d %d %s",&numCidadao,&numContribuinte,nome);
+    sscanf(linha,"%c %d %d %s",&l,&numCidadao,&numContribuinte, nome);
     if(existePavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
     else{
@@ -100,22 +98,52 @@ void pessoaTrampolins(pavilhao p , char * linha){
     }
 }
 //************************************************************************
-//************************************************************************
-//************************************************************************
+void saiTrampolin(pavilhao p, char * linha){
+    int numCidadao;
+    int hora;
+    int minutos;
+    sscanf(linha, "%d %d:%d",&numCidadao,&hora,&minutos);
+    minutos += hora*60;
+    if (minutos <= mEntrada(clienteEmPavilhao(p,numCidadao))) {
+        printf("Saida trampolim nao autorizada.");
+    }else if (existePavilhao(p, numCidadao)){
+        saiTrampolins(p, minutos, numCidadao);
+        printf("Saida trampolim autorizada.");
+    } else {
+        printf("Pessoa não esta no pavilhao.");
+    }
+}
 //************************************************************************
 
 
-void interpretador(pavilhao c){
-    char linha[25], cmd;
+//************************************************************************
+void registaSaidaPavilhao(pavilhao p, char * linha){
+    int numCidadao;
+    cliente c;
+    int perm;
+    sscanf(linha,"%d",&numCidadao);
+    c = saiPavilhao(p, numCidadao, &perm);
+    if (perm == 0) {
+        printf("Saida nao autorizada.\n");
+    }else if (perm == 1){
+        printf("Saida autorizada, valor a pagar %.2f euros.\n",contaCliente(c));
+    }else{
+        printf("Pessoa nao esta no pavilhao\n");
+    }
     
+}
+//************************************************************************
+
+void interpretador(pavilhao p){
+    char linha[25], cmd;
     fgets(linha,20,stdin);
     cmd = toupper(linha[0]);
     while (cmd!='X'){
         /* Tratar comando */
         switch (cmd){
-            case 'E': registaEntrada(c,linha);break;
-            case 'F': entradaFila(c, linha);break;
-            case 'L': entraTrampolinsP(c); break;
+            case 'E': registaEntrada(p,linha);break;
+            case 'F': entradaFila(p, linha);break;
+            case 'L': entraTrampolinsP(p); break;
             case 'T': ; break;
             case 'S': ;break;
             case 'V': ;break;
@@ -126,9 +154,10 @@ void interpretador(pavilhao c){
         fgets(linha,20,stdin);
         cmd = toupper(linha[0]);
     }
-    printf("Caixa: %.2f euros.\n", caixaPavilhao(c));
-    printf("Stock cafÈ: %d.\n",stockCafe(c));
-    printf("Stock sumo: %d.\n",stockSumo(c));
-    printf("Stock bolo: %d.\n",stockBolo(c));
+    fechaPavilhao(p);
+    printf("Caixa: %.2f euros.\n", caixaPavilhao(p));
+    printf("Stock cafÈ: %d.\n",stockCafe(p));
+    printf("Stock sumo: %d.\n",stockSumo(p));
+    printf("Stock bolo: %d.\n",stockBolo(p));
     
 }

@@ -89,4 +89,6 @@ float bolo(pavilhao p, int quantidade);
 void fechaPavilhao(pavilhao p);
 int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao);
 int trampolinsLivres(pavilhao c);
+cliente clienteEmPavilhao(pavilhao p, int numCidadao);
+int vaziaFilaTrampolins(pavilhao c);
 #endif /* pavilhao_H_ */
