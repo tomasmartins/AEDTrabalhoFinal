@@ -239,14 +239,13 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
         case 'B':conta = bolo(p, quantidade);break;
     }
     if (conta < 0) {
-        return conta * -1;
+        return -1;
     }else{
         c = elementoDicionario(p->pessoas, &numCidadao);
         adicionaConta(c, conta);
         return 1;
     }
 }
-
 void fechaPavilhao(pavilhao p){
     iterador it = iteradorChaveDicionario(p->pessoas);
     cliente c;
@@ -265,7 +264,6 @@ void fechaPavilhao(pavilhao p){
 int trampolinsLivres(pavilhao c){
     return c->nTrampolinsLivres;
 }
-
 cliente clienteEmPavilhao(pavilhao p, int numCidadao){
     return elementoDicionario(p->pessoas, &numCidadao);
 }
