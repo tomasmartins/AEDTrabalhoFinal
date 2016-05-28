@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "fila.h"
 #include "dicionario.h"
@@ -22,12 +23,18 @@ struct _pavilhao{
     float caixa; //valor em caixa
     int nTrampolins;
     int nTrampolinsLivres;
+    //RETIRAR
     int sCafe;
     int sSumo;
     int sBolo;
     float vCafe;
     float vSumo;
     float vBolo;
+    //RETIRAR
+    struct {
+        int stock;
+        float preco;
+    } produto[3];
 };
 
 /***********************************************
@@ -195,7 +202,7 @@ int pessoaTrampolin(pavilhao p, char * nome, int nTrampolim){
     }else if(nTrampolim >= p->nTrampolins){
         return 0;
     }else{
-       nome = nomeCliente(p->trampolins[nTrampolim-1]);
+       strcpy(nome,nomeCliente(p->trampolins[nTrampolim-1]));
        return 2;
     }
 }

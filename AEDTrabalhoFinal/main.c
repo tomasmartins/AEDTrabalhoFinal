@@ -18,10 +18,7 @@
 #include "cliente.h"
 #include "fila.h"
 #include "iterador.h"
-
 #define MAXLINHA 30
-
-
 
 void interpretador(pavilhao r);
 
@@ -39,8 +36,6 @@ int main(void){
     sscanf(linha,"%d %f",&sSumo,&vSumo);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d %f",&sBolo,&vBolo);
-    
-    
     if ((nTrampolins >0) && (sCafe >0) && (vCafe >0) && (sSumo >0) && (vSumo >0) && (sBolo >0) && (vBolo >0)){
         pavilhao  fct= criaPavilhao(nTrampolins, sCafe, vCafe, sSumo, vSumo, sBolo, vBolo);
         printf("Abertura pavilhao.\n");
@@ -51,10 +46,11 @@ int main(void){
 }
 
 void registaEntrada(pavilhao c, char * linha){
-    char nome[50]; char l;
+    char  nome[50]; char l;
     int numCidadao, numContribuinte;
     sscanf(linha,"%c %d %d\n",&l,&numCidadao,&numContribuinte);
-    fgets(nome,50,stdin);
+    scanf(" %s" ,nome);
+    getchar(); //Clean the buffer
     if(existePavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
     else{
@@ -102,7 +98,7 @@ void OPENTHEGATES(pavilhao c, char * linha){
 }
 void pessoaTrampolins(pavilhao c , char * linha){
     int nTrampolin;
-    char * nome, l;
+    char nome[50], l;
     int perm;
     sscanf(linha,"%c %d",&l,&nTrampolin);
     perm = pessoaTrampolin(c, nome, nTrampolin);
@@ -111,7 +107,7 @@ void pessoaTrampolins(pavilhao c , char * linha){
     }else if (perm == 1){
         printf("Trampolim vazio.\n");
     }else{
-        printf("Pessoa %s esta no trampolim.\n",nome);
+        printf("Pessoa %s esta no trampolim.\n", nome);
     }
 }
 
@@ -180,13 +176,11 @@ void registaSaidaPavilhao(pavilhao p, char * linha){
     }else{
         printf("Pessoa nao esta no pavilhao\n");
     }
-    
 }
 //************************************************************************
 
 void interpretador(pavilhao c){
     char linha[25], cmd;
-    
     fgets(linha,20,stdin);
     cmd = toupper(linha[0]);
     while (cmd!='X'){
@@ -209,5 +203,4 @@ void interpretador(pavilhao c){
     printf("Stock cafe: %d.\n",stockCafe(c));
     printf("Stock sumo: %d.\n",stockSumo(c));
     printf("Stock bolo: %d.\n",stockBolo(c));
-    
 }
