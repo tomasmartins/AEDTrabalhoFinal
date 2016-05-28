@@ -201,10 +201,6 @@ void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
 
 }
 
-int existePavilhao(pavilhao p , int numCidadao){
-    return existeElemDicionario(p->pessoas, &numCidadao);
-}
-
 int pessoaTrampolin(pavilhao p, char * nome, int nTrampolim){
     if (p->trampolins[nTrampolim-1] == NULL) {
         return 1;

@@ -3,8 +3,6 @@
  *
  */
 
-// FAZER
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -12,9 +10,9 @@
 
 
 struct _cliente{
-	int numContribuinte;
-	int numCidadao;
-	char nome[50];
+    int numContribuinte;
+    int numCidadao;
+    char nome[50];
     int mEntrada;
     int mTotais;
     float conta;
@@ -24,10 +22,10 @@ struct _cliente{
 /***********************************************
  criaCliente - Criacao da instancia da estrutura associada a uma cliente.
  Parametros: numC - numero contribuinte;
- lav - tipo de lavagem;
- mat - matricula
+ numCidadao - numero cidadao;
+ nome - nome
  Retorno: 	apontador para a instancia criada
- Pre-condicoes: 	numC > 0 && (lav == 'N' || lav == 'E') && (mat != NULL)
+ Pre-condicoes: 	numC > 0 && numCidadao > 0 && (nome != NULL)
  ***********************************************/
 cliente criaCliente(int numContribuinte, int numCidadao, char * nome){
     cliente c = (cliente) malloc(sizeof(struct _cliente));
@@ -46,8 +44,8 @@ cliente criaCliente(int numContribuinte, int numCidadao, char * nome){
 
 /***********************************************
  destroiCliente - Liberta a memoria ocupada pela estrutura associada a cliente.
- Parametros: 	p - cliente a destruir
- Pre-condicoes: 	p != NULL
+ Parametros: 	c - cliente a destruir
+ Pre-condicoes: 	c != NULL
  ***********************************************/
 void destroiCliente(cliente c){
     free(c);
@@ -55,17 +53,17 @@ void destroiCliente(cliente c){
 
 /***********************************************
  destroiGenCliente - Liberta a memoria ocupada pela estrutura associada a cliente.
- Parametros: 	p - cliente a destruir do tipo void *
- Pre-condicoes: 	p != NULL
+ Parametros: 	c - cliente a destruir do tipo void *
+ Pre-condicoes: 	c != NULL
  ***********************************************/
 void destroiGenCliente(void * c){
     destroiCliente((cliente) c);
 }
 
 /***********************************************
- lavagemCliente - retorna o nome do cliente.
- Parametros:		p - cliente
- Pre-condicoes: 	p != NULL
+ nomeCliente - retorna o nome do cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
  ***********************************************/
 char * nomeCliente(cliente c){
     return c->nome;
@@ -73,48 +71,99 @@ char * nomeCliente(cliente c){
 
 /***********************************************
  contribuinteCliente - retorna o numero de contribuinte do cliente.
- Parametros:		p - cliente
- Pre-condicoes: 	p != NULL
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
  ***********************************************/
 int contribuinteCliente(cliente p){
     return p->numContribuinte;
 }
 
 /***********************************************
- matriculaCliente - retorna a numero de cidadao do cliente.
- Parametros:		p - cliente
- Pre-condicoes: 	p != NULL
+ cidadaoCliente - retorna a numero de cidadao do cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
  ***********************************************/
 int cidadaoCliente(cliente p){
     return p->numCidadao;
 }
+
+/***********************************************
+ contaCliente - retorna a conta do cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 float contaCliente(cliente c){
     return c->conta;
 }
+
+/***********************************************
+ entraTempo - guarda os tempo de entrda em minutos no cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 void entraTempo(cliente c , int mEntrada){
     c->mEntrada = mEntrada;
 }
 
+/***********************************************
+ mEntrada - Retorna os minutos de entrada do cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 int mEntrada(cliente c){
     return c->mEntrada;
 }
+
+/***********************************************
+ adicionaTempo - Adiciona minutos ao tempo total de permanencia do cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 void adicionaTempo(cliente c , int adTotal){
     c->mTotais += adTotal;
 }
 
+/***********************************************
+ mTotais - Retorna os minutos de permanencia totais do cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 int mTotais(cliente c){
     return c->mTotais;
 }
+
+/***********************************************
+ adicionaConta - Retorna os minutos de permanencia totais do cliente.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 void adicionaConta(cliente c, float adConta){
     c->conta += adConta;
 }
+
+/***********************************************
+ setTrampolins- Torna 1 a variavel que indica se o cliente esta nos trampolins.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 void setTrampolins(cliente c){
     c->isTrampolin = 1;
 }
+
+/***********************************************
+ removeTrampolins - Torna 0 a variavel que indica se o cliente esta nos trampolins.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 void removeTrampolins(cliente c){
     c->isTrampolin = 0;
 }
 
+/***********************************************
+ isTrampolins - Retorna os a variavel que indica se o cliente esta nos trampolins.
+ Parametros:		c - cliente
+ Pre-condicoes: 	c != NULL
+ ***********************************************/
 int isTrampolins(cliente c){
     return c->isTrampolin;
 }

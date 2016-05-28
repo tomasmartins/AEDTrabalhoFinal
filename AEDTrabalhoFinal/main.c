@@ -148,11 +148,11 @@ void registaCompra(pavilhao p, char * linha){
         printf("Dados invalidos.\n");
     else{
         c = clienteEmPavilhao(p, numCidadao);
-        if(isTrampolins(c))
-            printf("Venda nao autorizada.\n");
+        if((existePavilhao(p, numCidadao))!=1)
+            printf("Pessoa nao esta no pavilhao.\n");
         else{
-            if((existePavilhao(p, numCidadao))!=1)
-                printf("Pessoa nao esta no pavilhao.\n");
+            if(isTrampolins(c))
+                printf("Venda nao autorizada.\n");
             else{
                 tipoConsumo = toupper(tipoConsumo);
                 if (tipoConsumo=='C'||tipoConsumo=='B'||tipoConsumo=='S'){
