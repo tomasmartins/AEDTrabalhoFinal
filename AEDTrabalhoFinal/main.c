@@ -27,7 +27,7 @@ int main(void){
     int nTrampolins,sCafe,sSumo,sBolo;
     float vCafe,vSumo,vBolo;
     
-    setvbuf(stdout,NULL,_IONBF, 0);
+    //setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d",&nTrampolins);
     fgets(linha, MAXLINHA, stdin);
@@ -41,6 +41,8 @@ int main(void){
         printf("Abertura pavilhao.\n");
         interpretador(fct);
         destroiPavilhao(fct);
+    }else{
+        printf("FIM - Dados invalidos.\n");
     }
     return 0;
 }
@@ -49,8 +51,8 @@ void registaEntrada(pavilhao c, char * linha){
     char  nome[50]; char l;
     int numCidadao, numContribuinte;
     sscanf(linha,"%c %d %d\n",&l,&numCidadao,&numContribuinte);
-    scanf(" %s" ,nome);
-    getchar(); //Clean the buffer
+    fgets(linha, MAXLINHA, stdin);
+    sscanf(linha," %s",nome);
     if(existePavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
     else{
@@ -61,22 +63,23 @@ void registaEntrada(pavilhao c, char * linha){
 }
 //***********************************************************************
 
-void entradaFila(pavilhao c, char * linha){
+void entradaFila(pavilhao p, char * linha){
     int numCidadao;
+    cliente c = NULL;
     char l;
     sscanf(linha,"%c %d",&l,&numCidadao);
-    
-    if((existePavilhao(c, numCidadao))!=1)
+    c = clienteEmPavilhao(p, numCidadao);
+    if(c == NULL)
         printf("Pessoa nao esta no pavilhao.\n");
+    else if(isTrampolins(c))
+        printf("Chegada não autorizada a fila.\n");
     else{
-        entraFilaTrampolins(c, numCidadao);
-        printf("Entrada autorizada.\n");
+        entraFilaTrampolins(p, numCidadao);
+        printf("Chegada autorizada a fila.\n");
     }
     
 }
-
 //************************************************************************
-
 void OPENTHEGATES(pavilhao c, char * linha){
     int hora, minutos, tEntrada;
     char l;
@@ -94,8 +97,8 @@ void OPENTHEGATES(pavilhao c, char * linha){
         
         
     }
-    //************************************************************************
 }
+//************************************************************************
 void pessoaTrampolins(pavilhao c , char * linha){
     int nTrampolin;
     char nome[50], l;
@@ -114,19 +117,23 @@ void pessoaTrampolins(pavilhao c , char * linha){
 //************************************************************************
 
 void saiTrampolin(pavilhao p, char * linha){
+    cliente c = NULL;
     int numCidadao;
     int hora;
     int minutos;
     char l;
     sscanf(linha, "%c %d %d:%d",&l,&numCidadao,&hora,&minutos);
+    c = clienteEmPavilhao(p,numCidadao);
     minutos += hora*60;
-    if (minutos <= mEntrada(clienteEmPavilhao(p,numCidadao))) {
-        printf("Saida trampolim nao autorizada.\n");
-    }else if (existePavilhao(p, numCidadao)){
-        saiTrampolins(p, minutos, numCidadao);
-        printf("Saida trampolim autorizada.\n");
-    } else {
-        printf("Pessoa n„o esta no pavilhao.\n");
+    if (!(c == NULL)){
+        if(minutos > mEntrada(c)){
+            saiTrampolins(p, minutos, numCidadao);
+            printf("Saida trampolim autorizada.\n");
+        }else{
+             printf("Saida trampolim nao autorizada.\n");
+        }
+    }else{
+        printf("Pessoa não esta no pavilhao.\n");
     }
 }
 

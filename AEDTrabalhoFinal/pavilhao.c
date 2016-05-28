@@ -15,7 +15,7 @@
 #include "pavilhao.h"
 
 #define DOBRO 2
-#define MAXPAV 2000
+#define MAXPAV 1500
 struct _pavilhao{
    	dicionario pessoas; //colecao de clientes no sistema
     cliente * trampolins;
@@ -119,6 +119,8 @@ float caixaPavilhao(pavilhao c){
 
 cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
     cliente c = NULL;
+    int tempo = 0;
+    float conta = 0;
     if (existeElemDicionario(p->pessoas, &numCidadao)) {
         c = elementoDicionario(p->pessoas, &numCidadao);
         if (isTrampolins(c)) {
@@ -126,6 +128,13 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
         }else{
             * perm = 1;
             removeElemDicionario(p->pessoas, &numCidadao);
+            tempo = mTotais(c);
+            if (tempo <= 30) {
+                conta = 5;
+            }else{
+                conta = (tempo + 29) / 30;
+            }
+            adicionaConta(c, conta);
         }
         return c;
     }else{
@@ -254,13 +263,12 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
     }
 }
 void fechaPavilhao(pavilhao p){
-    iterador it = iteradorChaveDicionario(p->pessoas);
+    iterador it = iteradorDicionario(p->pessoas);
     cliente c;
     int numCidadao;
     int perm;
     while (temSeguinteIterador(it)) {
-        numCidadao = (int)seguinteIterador(it);
-        c = saiPavilhao(p, numCidadao, &perm);
+        c = saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
         if (perm == 0 ) {
             saiTrampolins(p, 24*60, numCidadao);
             c = saiPavilhao(p, numCidadao, &perm);
