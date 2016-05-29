@@ -53,7 +53,7 @@ void registaEntrada(pavilhao c, char * linha){
     sscanf(linha,"%c %d %d\n",&l,&numCidadao,&numContribuinte);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha," %s",nome);
-    if(existePavilhao(c, numCidadao))
+    if(clienteEmPavilhao(c, numCidadao) == NULL)
         printf("Pessoa ja no pavilhao.\n");
     else{
         entraPavilhao(c, numContribuinte, numCidadao, nome);
@@ -207,7 +207,7 @@ void interpretador(pavilhao c){
         cmd = toupper(linha[0]);
     }
     printf("Caixa: %.2f euros.\n", caixaPavilhao(c));
-    printf("Stock cafe: %d.\n",stockCafe(c));
-    printf("Stock sumo: %d.\n",stockSumo(c));
-    printf("Stock bolo: %d.\n",stockBolo(c));
+    printf("Stock cafe: %d.\n",stock(c,0));
+    printf("Stock sumo: %d.\n",stock(c,1));
+    printf("Stock bolo: %d.\n",stock(c,2));
 }

@@ -60,35 +60,14 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm);
 void entraFilaTrampolins(pavilhao p , int numContribuinte);
 
 int entraTrampolins(pavilhao p, int mEntrada);
-/***********************************************
- stockCafe - retorna o valor do stock do cafe.
- Parametros: 	c - pavilhao
- Pre-condicoes: c != NULL
- ***********************************************/
-int stockCafe(pavilhao c);
-/***********************************************
- stockSumo - retorna o valor do stock do Sumo.
- Parametros: 	c - pavilhao
- Pre-condicoes: c != NULL
- ***********************************************/
-int stockSumo(pavilhao c);
-/***********************************************
- stockBolo - retorna o valor do stock do Bolo.
- Parametros: 	c - pavilhao
- Pre-condicoes: c != NULL
- ***********************************************/
-int stockBolo(pavilhao c);
+int stock(pavilhao p,int tipo);
 
 void saiTrampolins(pavilhao p, int nTempo , int numCidadao);
-int existePavilhao(pavilhao p , int numCidadao);
-int existePavilhao(pavilhao p , int numCidadao);
 int pessoaTrampolin(pavilhao p, char * nome, int nTrampolim);
-float sumo(pavilhao p ,int quantidade);
-float cafe(pavilhao p, int quantidade);
-float bolo(pavilhao p, int quantidade);
 void fechaPavilhao(pavilhao p);
 int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao);
 int trampolinsLivres(pavilhao c);
 cliente clienteEmPavilhao(pavilhao p, int numCidadao);
 int vaziaFilaTrampolins(pavilhao c);
+float calculaConta(pavilhao p , int quantidade , int tipo);
 #endif /* pavilhao_H_ */

@@ -15,7 +15,7 @@
 #include "pavilhao.h"
 
 #define DOBRO 2
-#define MAXPAV 1500
+#define INIPAV 1500
 struct _pavilhao{
    	dicionario pessoas; //colecao de clientes no sistema
     cliente * trampolins;
@@ -23,14 +23,6 @@ struct _pavilhao{
     float caixa; //valor em caixa
     int nTrampolins;
     int nTrampolinsLivres;
-    //RETIRAR
-    int sCafe;
-    int sSumo;
-    int sBolo;
-    float vCafe;
-    float vSumo;
-    float vBolo;
-    //RETIRAR
     struct {
         int stock;
         float preco;
@@ -48,7 +40,7 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
     pavilhao p = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
     if (p==NULL)                                           // verifica se esta memoria foi allocada
         return NULL;
-    p->pessoas = criaDicionario(MAXPAV,0);                       // cria a fila de pessoas
+    p->pessoas = criaDicionario(INIPAV,0);                       // cria a fila de pessoas
     if (p->pessoas==NULL){                                 // se não foi possivel criar a fila, vai libertar a memoria da pavilhao
         free(p);
         return NULL;
@@ -67,12 +59,12 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
         return NULL;
     }
     p->caixa =  0.0;
-    p->sCafe = sCafe;
-    p->sSumo = sSumo;
-    p->sBolo = sBolo;
-    p->vCafe = vCafe;
-    p->vSumo = vSumo;
-    p->vBolo = vBolo;
+    p->produto[0].preco = vCafe;
+    p->produto[0].stock = sCafe;
+    p->produto[1].preco = vSumo;
+    p->produto[1].stock = sSumo;
+    p->produto[2].preco = vBolo;
+    p->produto[2].stock = sBolo;
     p->nTrampolins = nTrampolins;
     p->nTrampolinsLivres = nTrampolins ;
     return p;
@@ -90,6 +82,10 @@ void destroiPavilhao(pavilhao c){
     free(c);
 }
 
+int existePavilhao(pavilhao p , int numCidadao){
+    return existeElemDicionario(p->pessoas, &numCidadao);
+}
+
 /***********************************************
  entrapavilhao - adiciona o veiculo com o contribuinte dado e a lavagem escolhida.
  Parametros: 	c - pavilhao;	numContribuinte - numero de contribuinte;
@@ -100,14 +96,6 @@ void entraPavilhao(pavilhao c, int numContribuinte, int numCidadao, char * nome)
     adicionaElemDicionario(c->pessoas, &numCidadao, criaCliente(numContribuinte, numCidadao, nome));
 }
 
-/***********************************************
- pessoaspavilhao - retorna o numero de pessoas na pavilhao.
- Parametros: 	c - pavilhao
- Pre-condicoes: c != NULL
- ***********************************************/
-int pessoasPavilhao(pavilhao c){
-    return tamanhoDicionario(c->pessoas);
-}
 /***********************************************
  caixapavilhao - retorna o valor em caixa.
  Parametros: 	c - pavilhao
@@ -132,7 +120,14 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
             if (tempo <= 30) {
                 conta = 5;
             }else{
-                conta = (tempo + 29) / 30;
+                conta = tempo / 30;
+                if (tempo%30 != 0) {
+                    conta += 5;
+                }
+            }
+            adicionaConta(c, conta);
+            if (contaCliente(c) == 0) {
+                conta = 5;
             }
             adicionaConta(c, conta);
         }
@@ -182,14 +177,8 @@ int entraTrampolins(pavilhao p, int mEntrada){
     }
     return numPessoas;
 }
-int stockCafe(pavilhao c){
-    return c->sCafe;
-}
-int stockSumo(pavilhao c){
-    return c->sSumo;
-}
-int stockBolo(pavilhao c){
-    return c->sBolo;
+int stock(pavilhao p,int tipo){
+    return p->produto[tipo].stock;
 }
 void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
     cliente c = removeVecTrampolin(p,numCidadao);
@@ -211,34 +200,12 @@ int pessoaTrampolin(pavilhao p, char * nome, int nTrampolim){
        return 2;
     }
 }
-float sumo(pavilhao p ,int quantidade){
-    float r;
-    if (quantidade < p->sSumo ) {
-        r = quantidade * p->vSumo;
-        p->sSumo -= quantidade;
-        return r;
+float calculaConta(pavilhao p , int quantidade , int tipo){
+    if (p->produto[tipo].stock - quantidade < 0) {
+        return -1;
     }else{
-    return -1;
-    }
-}
-float cafe(pavilhao p, int quantidade){
-    float r;
-    if (quantidade < p->sCafe ) {
-        r = quantidade * p->vCafe;
-        p->sCafe -= quantidade;
-        return r;
-    }else{
-        return -2;
-    }
-}
-float bolo(pavilhao p, int quantidade){
-    float r;
-    if (quantidade < p->sBolo ) {
-        r = quantidade * p->vBolo;
-        p->sBolo -= quantidade;
-        return r;
-    }else{
-        return -3;
+        p->produto[tipo].stock -= quantidade;
+        return (quantidade * p->produto[tipo].preco);
     }
 }
 int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
@@ -246,9 +213,9 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
     cliente c ;
     float conta = 0.0;
     switch (tipo){
-        case 'C':conta = cafe(p, quantidade);break;
-        case 'S':conta = sumo(p, quantidade);break;
-        case 'B':conta = bolo(p, quantidade);break;
+        case 'C':conta = calculaConta(p, quantidade,0);break;
+        case 'S':conta = calculaConta(p, quantidade,1);break;
+        case 'B':conta = calculaConta(p, quantidade,2);break;
     }
     if (conta < 0) {
         return -1;
