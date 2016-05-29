@@ -30,9 +30,14 @@ struct _pavilhao{
 };
 
 /***********************************************
- criapavilhao - Criacao da instancia da estrutura associada a uma pavilhao.
- Parametros: 	nPessoas - numero previsto de pessoas;
- precoNormal - preco da lavagem normal (a especial é o dobro)
+ criapavilhao - Criacao da instancia da estrutura associada a um pavilhao.
+ Parametros: 	nTrampolins - numero de Trampolins;
+ sCafe - stock de cafe;
+ vCafe - preco do cafe;
+ sSumo - stock de sumo;
+ vSumo - preco do sumo;
+ sBolo - stock de bolo;
+ vBolo - preco do bolo;
  Retorno: 	apontador para a instancia criada
  Pre-condicoes: nPessoas > 0 && precoNormal > 0
  ***********************************************/
@@ -41,7 +46,7 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
     if (p==NULL)                                           // verifica se esta memoria foi allocada
         return NULL;
     p->pessoas = criaDicionario(INIPAV,0);                       // cria a fila de pessoas
-    if (p->pessoas==NULL){                                 // se não foi possivel criar a fila, vai libertar a memoria da pavilhao
+    if (p->pessoas==NULL){                                 // se n„o foi possivel criar a fila, vai libertar a memoria da pavilhao
         free(p);
         return NULL;
     }
@@ -71,9 +76,9 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
 }
 
 /***********************************************
- destroipavilhao - Liberta a memoria ocupada pela estrutura associada a pavilhao, assim como as pessoas na pavilhao, caso existam.
- Parametros: 	c - pavilhao a destruir
- Pre-condicoes: c != NULL
+ destroiPavilhao - Liberta a memoria ocupada pela estrutura associada ao pavilhao, assim como os clientes no pavilhao, caso existam.
+ Parametros: 	p - pavilhao a destruir
+ Pre-condicoes: p != NULL
  ***********************************************/
 void destroiPavilhao(pavilhao c){
     destroiDicEElems(c->pessoas, destroiGenCliente); // destroi a fila e os elementos (se estes existirem)
@@ -82,29 +87,42 @@ void destroiPavilhao(pavilhao c){
     free(c);
 }
 
-int existePavilhao(pavilhao p , int numCidadao){
-    return existeElemDicionario(p->pessoas, &numCidadao);
-}
-
 /***********************************************
- entrapavilhao - adiciona o veiculo com o contribuinte dado e a lavagem escolhida.
- Parametros: 	c - pavilhao;	numContribuinte - numero de contribuinte;
- mat - matricula;	lav - tipo de lavagem
- Pre-condicoes: c != NULL && mat != NULL && numC > 0 && ((lav == 'N') || (lav == 'E'))
+ entraPavilhao - adiciona o cliente com o contribuinte, o numero de cidadao e o nome dados.
+ Parametros: 	p - pavilhao;
+ numContribuinte - numero contribuinte;
+ numCidadao - numero cidadao;
+ nome - nome;
+ Pre-condicoes: p != NULL && numC > 0 && numCidadao > 0 && (nome != NULL)
  ***********************************************/
 void entraPavilhao(pavilhao c, int numContribuinte, int numCidadao, char * nome){
     adicionaElemDicionario(c->pessoas, &numCidadao, criaCliente(numContribuinte, numCidadao, nome));
 }
 
 /***********************************************
- caixapavilhao - retorna o valor em caixa.
- Parametros: 	c - pavilhao
- Pre-condicoes: c != NULL
+ caixaPavilhao - retorna o valor em caixa.
+ Parametros: 	p - pavilhao
+ Pre-condicoes: p != NULL
  ***********************************************/
 float caixaPavilhao(pavilhao c){
     return c->caixa;
 }
 
+/***********************************************
+ clienteEmPavilhao - Verifica se existe o cliente no pavilhao.
+ Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
+ Pre-condicoes: p != NULL && numCidadao > 0
+ ***********************************************/
+cliente clienteEmPavilhao(pavilhao p, int numCidadao){
+    return elementoDicionario(p->pessoas, &numCidadao);
+}
+
+/***********************************************
+ saiPavilhao - Retira a pessoa do pavilhao e atualiza o valor a pagar.
+ Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
+ perm - permissao para sair;
+ Pre-condicoes: p != NULL && numCidadao > 0
+ ***********************************************/
 cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
     cliente c = NULL;
     int tempo = 0;
@@ -136,12 +154,44 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
         return NULL;
     }
 }
+
+/***********************************************
+ fechaPavilhao - Fecha o pavilhao, atualiza as contas e as pessoas.
+ Parametros: 	p - pavilhao;
+ Pre-condicoes: p != NULL
+ ***********************************************/
+void fechaPavilhao(pavilhao p){
+    iterador it = iteradorDicionario(p->pessoas);
+    cliente c;
+    int numCidadao;
+    int perm;
+    while (temSeguinteIterador(it)) {
+        c = saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
+        if (perm == 0 ) {
+            saiTrampolins(p, 24*60, numCidadao);
+            c = saiPavilhao(p, numCidadao, &perm);
+        }
+    }
+    destroiIterador(it);
+}
+
+/***********************************************
+ entraFilaTrampolins - Move a pessoa para a fila dos trampolins.
+ Parametros: 	p - pavilhao;	numContribuinte - numero de contribuinte;
+ Pre-condicoes: p != NULL && numContribuinte > 0
+ ***********************************************/
 void entraFilaTrampolins(pavilhao p , int numCidadao){
     cliente c = elementoDicionario(p->pessoas, &numCidadao);
     adicionaElemFila(p->filaTrampolins,c);
     setTrampolins(c);
 }
-void adicionaVecTrampolin(pavilhao p , cliente c){
+
+/***********************************************
+ adicionaVecTrampolim - adiciona uma pessoa ao vector dos trampolins.
+ Parametros: 	p - pavilhao;	c - cliente;
+ Pre-condicoes: p != NULL && c != NULL
+ ***********************************************/
+void adicionaVecTrampolim(pavilhao p , cliente c){
     int i;
     for (i = 0; i < p->nTrampolins; i++) {
         if (p->trampolins[i] == NULL) {
@@ -151,7 +201,12 @@ void adicionaVecTrampolin(pavilhao p , cliente c){
     }
 }
 
-cliente removeVecTrampolin(pavilhao p, int numCidadao){
+/***********************************************
+ removeVecTrampolin - remove a pessoa do vector dos trampolins.
+ Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
+ Pre-condicoes: p != NULL && numCidadao > 0
+ ***********************************************/
+cliente removeVecTrampolim(pavilhao p, int numCidadao){
     cliente c = NULL;
     int i;
     for (i = 0; i < p->nTrampolins; i++) {
@@ -161,45 +216,94 @@ cliente removeVecTrampolin(pavilhao p, int numCidadao){
             break;
         }
     }
-
+    
     return c;
 }
 
+/***********************************************
+ entraTrampolins - Move o maximo de pessoas da fila dos trampolins para todos os trampolins livres.
+ Parametros: 	p - pavilhao;	mEntrada - minutos de entrada do cliente;
+ Pre-condicoes: p != NULL && mEntrada > 0
+ ***********************************************/
 int entraTrampolins(pavilhao p, int mEntrada){
     int numPessoas;
     cliente c = NULL;
     while(!(p->nTrampolinsLivres == 0 || vaziaFila(p->filaTrampolins))){
         c = removeElemFila(p->filaTrampolins);
         entraTempo(c, mEntrada);
-        adicionaVecTrampolin(p,c);
+        adicionaVecTrampolim(p,c);
         numPessoas++;
         p->nTrampolinsLivres --;
     }
     return numPessoas;
 }
-int stock(pavilhao p,int tipo){
-    return p->produto[tipo].stock;
-}
+
+/***********************************************
+ saiTrampolins - Retira a pessoa dos trampolins para o pavilhao e adiciona .
+ Parametros: 	p - pavilhao;	nTempo - tempo de permanencia do cliente;
+ numCidadao - numero de cidadao;
+ Pre-condicoes: p != NULL && nTempo > 0 && numCidadao > 0
+ ***********************************************/
 void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
-    cliente c = removeVecTrampolin(p,numCidadao);
+    cliente c = removeVecTrampolim(p,numCidadao);
     int aux  = cidadaoCliente(c);
     adicionaTempo(c,nTempo - mEntrada(c));
     adicionaElemDicionario(p->pessoas,&aux, c);
     removeTrampolins(c);
     p->nTrampolinsLivres++;
-
+    
 }
 
-int pessoaTrampolin(pavilhao p, char * nome, int nTrampolim){
+/***********************************************
+ pessoaTrampolim - Verifica se existe a pessoa no trampolim dado.
+ Parametros: 	p - pavilhao;	nome - nome da pessoa;
+ nTrampolim - numero do trampolim;
+ Pre-condicoes: p != NULL && nome != NULL && numTrampolim > 0
+ ***********************************************/
+int pessoaTrampolim(pavilhao p, char * nome, int nTrampolim){
     if (p->trampolins[nTrampolim-1] == NULL) {
         return 1;
     }else if(nTrampolim >= p->nTrampolins){
         return 0;
     }else{
-       strcpy(nome,nomeCliente(p->trampolins[nTrampolim-1]));
-       return 2;
+        strcpy(nome,nomeCliente(p->trampolins[nTrampolim-1]));
+        return 2;
     }
 }
+
+/***********************************************
+ trampolinsLivres - retorna o numero de trampolins livres.
+ Parametros: 	p - pavilhao;
+ Pre-condicoes: p != NULL
+ ***********************************************/
+int trampolinsLivres(pavilhao c){
+    return c->nTrampolinsLivres;
+}
+
+/***********************************************
+ vaziaFilaTrampolins - retorna 1 se a fila estiver vazia.
+ Parametros: 	p - pavilhao;
+ Pre-condicoes: p != NULL
+ ***********************************************/
+int vaziaFilaTrampolins(pavilhao c){
+    return vaziaFila(c->filaTrampolins);
+}
+
+/***********************************************
+ stock - retorna o stock do produto do tipo dado.
+ Parametros: 	p - pavilhao; tipo - tipo de produto;
+ Pre-condicoes: p != NULL && tipo > 0
+ ***********************************************/
+int stock(pavilhao p,int tipo){
+    return p->produto[tipo].stock;
+}
+
+/***********************************************
+ calculaConta - calcula o valor a pagar.
+ Parametros: 	p - pavilhao; tipo - tipo de produto;
+ quantidade - quantidade;
+ Pre-condicoes: p != NULL && tipo > 0
+ ***********************************************/
 float calculaConta(pavilhao p , int quantidade , int tipo){
     if (p->produto[tipo].stock - quantidade < 0) {
         return -1;
@@ -208,6 +312,14 @@ float calculaConta(pavilhao p , int quantidade , int tipo){
         return (quantidade * p->produto[tipo].preco);
     }
 }
+
+/***********************************************
+ consumo - Regista a compra de um produto no cliente.
+ Parametros: 	p - pavilhao;	tipo - tipo do consumo;
+ numCidadao - numero do cidadao; quantidade- quantidade;
+ Pre-condicoes: p != NULL && tipo > 0 && quantidade > 0
+ && numCidadao > 0
+ ***********************************************/
 int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
     tipo = toupper(tipo);
     cliente c ;
@@ -224,27 +336,4 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
         adicionaConta(c, conta);
         return 1;
     }
-}
-void fechaPavilhao(pavilhao p){
-    iterador it = iteradorDicionario(p->pessoas);
-    cliente c;
-    int numCidadao;
-    int perm;
-    while (temSeguinteIterador(it)) {
-        c = saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
-        if (perm == 0 ) {
-            saiTrampolins(p, 24*60, numCidadao);
-            c = saiPavilhao(p, numCidadao, &perm);
-        }
-    }
-    destroiIterador(it);
-}
-int trampolinsLivres(pavilhao c){
-    return c->nTrampolinsLivres;
-}
-cliente clienteEmPavilhao(pavilhao p, int numCidadao){
-    return elementoDicionario(p->pessoas, &numCidadao);
-}
-int vaziaFilaTrampolins(pavilhao c){
-    return vaziaFila(c->filaTrampolins);
 }

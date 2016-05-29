@@ -148,7 +148,7 @@ void registaCompra(pavilhao p, char * linha){
         printf("Dados invalidos.\n");
     else{
         c = clienteEmPavilhao(p, numCidadao);
-        if((existePavilhao(p, numCidadao))!=1)
+        if(c == NULL)
             printf("Pessoa nao esta no pavilhao.\n");
         else{
             if(isTrampolins(c))
