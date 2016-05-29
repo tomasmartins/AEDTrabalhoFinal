@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 
 #include "fila.h"
 #include "dicionario.h"
@@ -135,19 +136,13 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
             * perm = 1;
             removeElemDicionario(p->pessoas, &numCidadao);
             tempo = mTotais(c);
-            if (tempo <= 30) {
-                conta = 5;
-            }else{
-                conta = tempo / 30;
-                if (tempo%30 != 0) {
-                    conta += 5;
-                }
-            }
-            adicionaConta(c, conta);
-            if (contaCliente(c) == 0) {
+            conta = ceilf(tempo/5.0);
+            if (contaCliente(c) <= 0 || tempo <= 0) {
                 conta = 5;
             }
+            printf("CONTA: %f\n",conta);
             adicionaConta(c, conta);
+            p->caixa += contaCliente(c);
         }
         return c;
     }else{
@@ -332,6 +327,7 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
     if (conta < 0) {
         return -1;
     }else{
+        printf("Compra %f",conta);
         c = elementoDicionario(p->pessoas, &numCidadao);
         adicionaConta(c, conta);
         return 1;

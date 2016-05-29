@@ -26,7 +26,6 @@ int main(void){
     char linha[MAXLINHA];
     int nTrampolins,sCafe,sSumo,sBolo;
     float vCafe,vSumo,vBolo;
-    
     //setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d",&nTrampolins);
@@ -53,7 +52,9 @@ void registaEntrada(pavilhao c, char * linha){
     sscanf(linha,"%c %d %d\n",&l,&numCidadao,&numContribuinte);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha," %s",nome);
-    if(clienteEmPavilhao(c, numCidadao) == NULL)
+    if (sscanf(linha,"%c %d %d",&l,&numCidadao,&numContribuinte)!=3)
+        printf("Dados invalidos.\n");
+    else if(clienteEmPavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
     else{
         entraPavilhao(c, numContribuinte, numCidadao, nome);
@@ -104,7 +105,7 @@ void pessoaTrampolins(pavilhao c , char * linha){
     char nome[50], l;
     int perm;
     sscanf(linha,"%c %d",&l,&nTrampolin);
-    perm = pessoaTrampolin(c, nome, nTrampolin);
+    perm = pessoaTrampolim(c, nome, nTrampolin);
     if (perm == 0) {
         printf("Trampolim inexistente.\n");
     }else if (perm == 1){
@@ -142,6 +143,7 @@ void saiTrampolin(pavilhao p, char * linha){
 void registaCompra(pavilhao p, char * linha){
     char tipoConsumo,l;
     int quantidade, numCidadao;
+    float conta = 0;
     cliente c;
 
     if (sscanf(linha,"%c %c %d %d",&l,&tipoConsumo,&quantidade,&numCidadao)!=4)
@@ -156,9 +158,10 @@ void registaCompra(pavilhao p, char * linha){
             else{
                 tipoConsumo = toupper(tipoConsumo);
                 if (tipoConsumo=='C'||tipoConsumo=='B'||tipoConsumo=='S'){
-                    if(consumo(p,tipoConsumo,quantidade,numCidadao)==-1)
+                    conta = consumo(p,tipoConsumo,quantidade,numCidadao);
+                    if(conta == -1)
                         printf("Produto %c esgotado.",tipoConsumo);
-                    if(consumo(p,tipoConsumo,quantidade,numCidadao)==1)
+                    if(conta == 1)
                         printf("Venda autorizada.\n");
                 }
                 else
