@@ -26,7 +26,7 @@ int main(void){
     char linha[MAXLINHA];
     int nTrampolins,sCafe,sSumo,sBolo;
     float vCafe,vSumo,vBolo;
-    //setvbuf(stdout,NULL,_IONBF, 0);
+    setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d",&nTrampolins);
     fgets(linha, MAXLINHA, stdin);
@@ -52,8 +52,8 @@ void registaEntrada(pavilhao c, char * linha){
     int numCidadao, numContribuinte , scan;
     scan = sscanf(linha,"%c %d %d",&l,&numCidadao,&numContribuinte);
     fgets(linha, MAXLINHA, stdin);
-    sscanf(linha,"%[^\n]s",nome);
-    if (scan!=3)
+
+    if (scan!=3 || sscanf(linha,"%[^\n]s",nome)==NULL)
         printf("Dados invalidos.\n");
     else if(clienteEmPavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
@@ -64,6 +64,7 @@ void registaEntrada(pavilhao c, char * linha){
     
 }
 //***********************************************************************
+
 void entradaFila(pavilhao p, char * linha){
     int numCidadao;
     cliente c = NULL;
@@ -73,7 +74,7 @@ void entradaFila(pavilhao p, char * linha){
     if(c == NULL)
         printf("Pessoa nao esta no pavilhao.\n");
     else if(isTrampolins(c))
-        printf("Chegada n√£o autorizada a fila.\n");
+        printf("Chegada n√o autorizada a fila.\n");
     else{
         entraFilaTrampolins(p, numCidadao);
         printf("Chegada autorizada a fila.\n");
@@ -82,12 +83,14 @@ void entradaFila(pavilhao p, char * linha){
 }
 //************************************************************************
 void OPENTHEGATES(pavilhao c, char * linha){
-    int hora, minutos, tEntrada;
+    int hora, minutos, tEntrada, scan;
     char l;
-    sscanf(linha,"%c %d %d",&l,&hora,&minutos);
+    scan=sscanf(linha,"%c %d:%d",&l,&hora,&minutos);
     tEntrada=(60*hora)+minutos;
     
-    if((trampolinsLivres(c))==0){
+    if(scan!=3)
+    	printf("Dados invalidos.\n");
+    else if((trampolinsLivres(c))==0){
         printf("Trampolins ocupados.\n");
     }else{
         if(vaziaFilaTrampolins(c)){
@@ -95,8 +98,6 @@ void OPENTHEGATES(pavilhao c, char * linha){
         }else{
             printf("Entrada de %d pessoas nos trampolins.\n", entraTrampolins(c, tEntrada));
         }
-        
-        
     }
 }
 //************************************************************************
@@ -187,11 +188,11 @@ void registaSaidaPavilhao(pavilhao p, char * linha){
         printf("Pessoa nao esta no pavilhao\n");
     }
 }
-//***********************************************************************
-
+//************************************************************************
 void printfCaixa(pavilhao p){
     printf("%.2f\n",caixaPavilhao(p));
 }
+//************************************************************************
 void interpretador(pavilhao c){
     char linha[25], cmd;
     fgets(linha,20,stdin);

@@ -128,20 +128,24 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
     cliente c = NULL;
     int tempo = 0;
     float conta = 0;
+
     if (existeElemDicionario(p->pessoas, &numCidadao)) {
+    	printf("KEK\n");
         c = elementoDicionario(p->pessoas, &numCidadao);
         if (isTrampolins(c)) {
             * perm = 0;
         }else{
             * perm = 1;
-            removeElemDicionario(p->pessoas, &numCidadao);
+            //removeElemDicionario(p->pessoas, &numCidadao);
             tempo = mTotais(c);
-            conta = ceilf(tempo/5.0);
-            if (contaCliente(c) <= 0 || tempo <= 0) {
+            conta = ceilf(tempo/30)*5;
+            if (contaCliente(c) == 0 || tempo <= 0) {
                 conta = 5;
+                printf("KEK2\n");
             }
             adicionaConta(c, conta);
             p->caixa += contaCliente(c);
+            removeElemDicionario(p->pessoas, &numCidadao);
         }
         return c;
     }else{
@@ -156,17 +160,17 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
  ***********************************************/
 void fechaPavilhao(pavilhao p){
     iterador it = iteradorDicionario(p->pessoas);
-    int numCidadao;
     int perm;
     while (temSeguinteIterador(it)) {
         saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
         if (perm == 0 ) {
-            saiTrampolins(p, 24*60, numCidadao);
-            saiPavilhao(p, numCidadao, &perm);
+            saiTrampolins(p, 24*60, cidadaoCliente(seguinteIterador(it)));
+            saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
         }
     }
     destroiIterador(it);
 }
+
 /***********************************************
  entraFilaTrampolins - Move a pessoa para a fila dos trampolins.
  Parametros: 	p - pavilhao;	numContribuinte - numero de contribuinte;
@@ -208,6 +212,7 @@ cliente removeVecTrampolim(pavilhao p, int numCidadao){
             break;
         }
     }
+    
     return c;
 }
 
@@ -217,7 +222,7 @@ cliente removeVecTrampolim(pavilhao p, int numCidadao){
  Pre-condicoes: p != NULL && mEntrada > 0
  ***********************************************/
 int entraTrampolins(pavilhao p, int mEntrada){
-    int numPessoas = 0;
+    int numPessoas=0;
     cliente c = NULL;
     while(!(p->nTrampolinsLivres == 0 || vaziaFila(p->filaTrampolins))){
         c = removeElemFila(p->filaTrampolins);
@@ -303,7 +308,6 @@ float calculaConta(pavilhao p , int quantidade , int tipo){
         return (quantidade * p->produto[tipo].preco);
     }
 }
-
 /***********************************************
  consumo - Regista a compra de um produto no cliente.
  Parametros: 	p - pavilhao;	tipo - tipo do consumo;
@@ -325,6 +329,7 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
     }else{
         c = elementoDicionario(p->pessoas, &numCidadao);
         adicionaConta(c, conta);
+       // printf("%.2f\n",conta);
         p->caixa += conta;
         return 1;
     }
