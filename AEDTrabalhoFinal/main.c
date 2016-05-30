@@ -45,14 +45,15 @@ int main(void){
     }
     return 0;
 }
-
+//***********************************************************************
 void registaEntrada(pavilhao c, char * linha){
-    char  nome[50]; char l;
-    int numCidadao, numContribuinte;
-    sscanf(linha,"%c %d %d\n",&l,&numCidadao,&numContribuinte);
+    char  nome[50];
+    char l;
+    int numCidadao, numContribuinte , scan;
+    scan = sscanf(linha,"%c %d %d",&l,&numCidadao,&numContribuinte);
     fgets(linha, MAXLINHA, stdin);
-    sscanf(linha," %s",nome);
-    if (sscanf(linha,"%c %d %d",&l,&numCidadao,&numContribuinte)!=3)
+    sscanf(linha,"%[^\n]s",nome);
+    if (scan!=3)
         printf("Dados invalidos.\n");
     else if(clienteEmPavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
