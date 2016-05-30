@@ -140,7 +140,6 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
             if (contaCliente(c) <= 0 || tempo <= 0) {
                 conta = 5;
             }
-            printf("CONTA: %f\n",conta);
             adicionaConta(c, conta);
             p->caixa += contaCliente(c);
         }
@@ -157,19 +156,17 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
  ***********************************************/
 void fechaPavilhao(pavilhao p){
     iterador it = iteradorDicionario(p->pessoas);
-    cliente c;
     int numCidadao;
     int perm;
     while (temSeguinteIterador(it)) {
-        c = saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
+        saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
         if (perm == 0 ) {
             saiTrampolins(p, 24*60, numCidadao);
-            c = saiPavilhao(p, numCidadao, &perm);
+            saiPavilhao(p, numCidadao, &perm);
         }
     }
     destroiIterador(it);
 }
-
 /***********************************************
  entraFilaTrampolins - Move a pessoa para a fila dos trampolins.
  Parametros: 	p - pavilhao;	numContribuinte - numero de contribuinte;
@@ -211,7 +208,6 @@ cliente removeVecTrampolim(pavilhao p, int numCidadao){
             break;
         }
     }
-    
     return c;
 }
 
@@ -221,7 +217,7 @@ cliente removeVecTrampolim(pavilhao p, int numCidadao){
  Pre-condicoes: p != NULL && mEntrada > 0
  ***********************************************/
 int entraTrampolins(pavilhao p, int mEntrada){
-    int numPessoas;
+    int numPessoas = 0;
     cliente c = NULL;
     while(!(p->nTrampolinsLivres == 0 || vaziaFila(p->filaTrampolins))){
         c = removeElemFila(p->filaTrampolins);
@@ -327,9 +323,9 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
     if (conta < 0) {
         return -1;
     }else{
-        printf("Compra %f",conta);
         c = elementoDicionario(p->pessoas, &numCidadao);
         adicionaConta(c, conta);
+        p->caixa += conta;
         return 1;
     }
 }

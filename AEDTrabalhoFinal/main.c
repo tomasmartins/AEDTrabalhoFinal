@@ -64,7 +64,6 @@ void registaEntrada(pavilhao c, char * linha){
     
 }
 //***********************************************************************
-
 void entradaFila(pavilhao p, char * linha){
     int numCidadao;
     cliente c = NULL;
@@ -188,8 +187,11 @@ void registaSaidaPavilhao(pavilhao p, char * linha){
         printf("Pessoa nao esta no pavilhao\n");
     }
 }
-//************************************************************************
+//***********************************************************************
 
+void printfCaixa(pavilhao p){
+    printf("%.2f\n",caixaPavilhao(p));
+}
 void interpretador(pavilhao c){
     char linha[25], cmd;
     fgets(linha,20,stdin);
@@ -204,12 +206,13 @@ void interpretador(pavilhao c){
             case 'S': saiTrampolin(c, linha);break;
             case 'V': registaCompra(c, linha);break;
             case 'Q': registaSaidaPavilhao(c, linha);break;
-            case 'C': caixaPavilhao(c);break;
+            case 'C': printfCaixa(c);break;
             default: printf("Comando invalido.\n");break;
         }
         fgets(linha,20,stdin);
         cmd = toupper(linha[0]);
     }
+    fechaPavilhao(c);
     printf("Caixa: %.2f euros.\n", caixaPavilhao(c));
     printf("Stock cafe: %d.\n",stock(c,0));
     printf("Stock sumo: %d.\n",stock(c,1));
