@@ -17,6 +17,8 @@
 
 #define DOBRO 2
 #define INIPAV 1500
+#define MINTRAMP 30
+#define PRECO30MIN 5
 struct _pavilhao{
    	dicionario pessoas; //colecao de clientes no sistema
     cliente * trampolins;
@@ -43,6 +45,7 @@ struct _pavilhao{
  Pre-condicoes: nPessoas > 0 && precoNormal > 0
  ***********************************************/
 pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float vSumo,int sBolo , float vBolo ){
+    int i;
     pavilhao p = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
     if (p==NULL)                                           // verifica se esta memoria foi allocada
         return NULL;
@@ -63,6 +66,9 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
         destroiFila(p->filaTrampolins);
         free(p);
         return NULL;
+    }
+    for (i = 0; i < nTrampolins; i++) {
+        p->trampolins[i] = NULL;
     }
     p->caixa =  0.0;
     p->produto[0].preco = vCafe;
@@ -128,23 +134,20 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
     cliente c = NULL;
     int tempo = 0;
     float conta = 0;
-
+    
     if (existeElemDicionario(p->pessoas, &numCidadao)) {
-    	printf("KEK\n");
         c = elementoDicionario(p->pessoas, &numCidadao);
         if (isTrampolins(c)) {
             * perm = 0;
         }else{
             * perm = 1;
-            //removeElemDicionario(p->pessoas, &numCidadao);
             tempo = mTotais(c);
-            conta = ceilf(tempo/30)*5;
-            if (contaCliente(c) == 0 || tempo <= 0) {
+            conta = ceilf(tempo/MINTRAMP)*PRECO30MIN;
+            if (contaCliente(c) == 0 && tempo == 0) {
                 conta = 5;
-                printf("KEK2\n");
             }
             adicionaConta(c, conta);
-            p->caixa += contaCliente(c);
+            p->caixa += conta;
             removeElemDicionario(p->pessoas, &numCidadao);
         }
         return c;
@@ -152,7 +155,6 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
         return NULL;
     }
 }
-
 /***********************************************
  fechaPavilhao - Fecha o pavilhao, atualiza as contas e as pessoas.
  Parametros: 	p - pavilhao;
@@ -170,6 +172,7 @@ void fechaPavilhao(pavilhao p){
     }
     destroiIterador(it);
 }
+/******* TRAMPOLIMS *********/
 
 /***********************************************
  entraFilaTrampolins - Move a pessoa para a fila dos trampolins.
@@ -181,45 +184,44 @@ void entraFilaTrampolins(pavilhao p , int numCidadao){
     adicionaElemFila(p->filaTrampolins,c);
     setTrampolins(c);
 }
-
 /***********************************************
  adicionaVecTrampolim - adiciona uma pessoa ao vector dos trampolins.
  Parametros: 	p - pavilhao;	c - cliente;
  Pre-condicoes: p != NULL && c != NULL
  ***********************************************/
 void adicionaVecTrampolim(pavilhao p , cliente c){
-    int i;
-    for (i = 0; i < p->nTrampolins; i++) {
+    int i = 0;
+    do {
         if (p->trampolins[i] == NULL) {
             p->trampolins[i] = c;
-            break;
         }
-    }
+        i++;
+    } while (!(p->trampolins[i] == NULL));
 }
-
 /***********************************************
  removeVecTrampolin - remove a pessoa do vector dos trampolins.
  Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
  Pre-condicoes: p != NULL && numCidadao > 0
  ***********************************************/
+
 cliente removeVecTrampolim(pavilhao p, int numCidadao){
     cliente c = NULL;
-    int i;
-    for (i = 0; i < p->nTrampolins; i++) {
+    int i = 0;
+    do {
         if (cidadaoCliente(p->trampolins[i]) == numCidadao) {
             c=p->trampolins[i];
             p->trampolins[i] = NULL;
             break;
         }
-    }
-    
+        i++;
+    } while (!(cidadaoCliente(p->trampolins[i]) == numCidadao));
     return c;
 }
 
 /***********************************************
  entraTrampolins - Move o maximo de pessoas da fila dos trampolins para todos os trampolins livres.
  Parametros: 	p - pavilhao;	mEntrada - minutos de entrada do cliente;
- Pre-condicoes: p != NULL && mEntrada > 0
+ Pre-condicoes: p != NULL && m\Entrada > 0
  ***********************************************/
 int entraTrampolins(pavilhao p, int mEntrada){
     int numPessoas=0;
@@ -242,12 +244,9 @@ int entraTrampolins(pavilhao p, int mEntrada){
  ***********************************************/
 void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
     cliente c = removeVecTrampolim(p,numCidadao);
-    int aux  = cidadaoCliente(c);
     adicionaTempo(c,nTempo - mEntrada(c));
-    adicionaElemDicionario(p->pessoas,&aux, c);
     removeTrampolins(c);
     p->nTrampolinsLivres++;
-    
 }
 
 /***********************************************
@@ -259,7 +258,7 @@ void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
 int pessoaTrampolim(pavilhao p, char * nome, int nTrampolim){
     if (p->trampolins[nTrampolim-1] == NULL) {
         return 1;
-    }else if(nTrampolim >= p->nTrampolins){
+    }else if(nTrampolim >= p->nTrampolins-1){
         return 0;
     }else{
         strcpy(nome,nomeCliente(p->trampolins[nTrampolim-1]));

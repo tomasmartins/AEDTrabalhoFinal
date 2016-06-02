@@ -3,6 +3,7 @@
  *
  *  Created on: 12 de April de 2016
  *      Author: carmen
+ * gcc chaves.c cliente.c dicionario.c fila.c iterador.c main.c pavilhao.c tuplo.c -o final
  */
 #include <stdio.h>
 #include <ctype.h>
@@ -26,7 +27,7 @@ int main(void){
     char linha[MAXLINHA];
     int nTrampolins,sCafe,sSumo,sBolo;
     float vCafe,vSumo,vBolo;
-    setvbuf(stdout,NULL,_IONBF, 0);
+    //setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d",&nTrampolins);
     fgets(linha, MAXLINHA, stdin);
@@ -53,7 +54,7 @@ void registaEntrada(pavilhao c, char * linha){
     scan = sscanf(linha,"%c %d %d",&l,&numCidadao,&numContribuinte);
     fgets(linha, MAXLINHA, stdin);
 
-    if (scan!=3 || sscanf(linha,"%[^\n]s",nome)==NULL)
+    if (scan!=3 || sscanf(linha,"%[^\n]s",nome) == 0)
         printf("Dados invalidos.\n");
     else if(clienteEmPavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
@@ -64,7 +65,6 @@ void registaEntrada(pavilhao c, char * linha){
     
 }
 //***********************************************************************
-
 void entradaFila(pavilhao p, char * linha){
     int numCidadao;
     cliente c = NULL;
@@ -74,12 +74,11 @@ void entradaFila(pavilhao p, char * linha){
     if(c == NULL)
         printf("Pessoa nao esta no pavilhao.\n");
     else if(isTrampolins(c))
-        printf("Chegada n√o autorizada a fila.\n");
+        printf("Chegada nao autorizada a fila.\n");
     else{
         entraFilaTrampolins(p, numCidadao);
         printf("Chegada autorizada a fila.\n");
     }
-    
 }
 //************************************************************************
 void OPENTHEGATES(pavilhao c, char * linha){
@@ -119,7 +118,7 @@ void pessoaTrampolins(pavilhao c , char * linha){
 //************************************************************************
 
 void saiTrampolin(pavilhao p, char * linha){
-    cliente c = NULL;
+    cliente c ;
     int numCidadao;
     int hora;
     int minutos;
