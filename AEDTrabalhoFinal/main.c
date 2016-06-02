@@ -7,7 +7,7 @@
  */
 #include <stdio.h>
 #include <ctype.h>
-
+#include <math.h>
 /* TAD usado */
 
 #include "cliente.h"

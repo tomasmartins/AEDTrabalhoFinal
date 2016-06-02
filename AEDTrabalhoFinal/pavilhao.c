@@ -142,7 +142,7 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
         }else{
             * perm = 1;
             tempo = mTotais(c);
-            conta = ceilf(tempo/MINTRAMP)*PRECO30MIN;
+            conta = ceil(tempo/MINTRAMP)*PRECO30MIN;
             if (contaCliente(c) == 0 && tempo == 0) {
                 conta = 5;
             }
