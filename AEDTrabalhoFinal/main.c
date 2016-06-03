@@ -26,7 +26,7 @@ int main(void){
     char linha[MAXLINHA];
     int nTrampolins,sCafe,sSumo,sBolo;
     float vCafe,vSumo,vBolo;
-    setvbuf(stdout,NULL,_IONBF, 0);
+    //setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d",&nTrampolins);
     fgets(linha, MAXLINHA, stdin);
@@ -52,8 +52,8 @@ void registaEntrada(pavilhao c, char * linha){
     int numCidadao, numContribuinte , scan;
     scan = sscanf(linha,"%c %d %d",&l,&numCidadao,&numContribuinte);
     fgets(linha, MAXLINHA, stdin);
-
-    if (scan!=3 || sscanf(linha,"%[^\n]s",nome)==0)
+    
+    if (scan!=3 || sscanf(linha,"%[^\n]s",nome) == 0)
         printf("Dados invalidos.\n");
     else if(clienteEmPavilhao(c, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
@@ -71,7 +71,9 @@ void entradaFila(pavilhao p, char * linha){
     char l;
     sscanf(linha,"%c %d",&l,&numCidadao);
     c = clienteEmPavilhao(p, numCidadao);
-    if(c == NULL)
+    if(sscanf(linha,"%c %d",&l,&numCidadao)!=2 || numCidadao==0)
+        printf("Dados invalidos.\n");
+    else if(c == NULL)
         printf("Pessoa nao esta no pavilhao.\n");
     else if(isTrampolins(c))
         printf("Chegada nao autorizada a fila.\n");
@@ -79,7 +81,6 @@ void entradaFila(pavilhao p, char * linha){
         entraFilaTrampolins(p, numCidadao);
         printf("Chegada autorizada a fila.\n");
     }
-    
 }
 //************************************************************************
 void OPENTHEGATES(pavilhao c, char * linha){
@@ -163,7 +164,7 @@ void registaCompra(pavilhao p, char * linha){
                 if (tipoConsumo=='C'||tipoConsumo=='B'||tipoConsumo=='S'){
                     conta = consumo(p,tipoConsumo,quantidade,numCidadao);
                     if(conta == -1)
-                        printf("Produto %c esgotado.",tipoConsumo);
+                        printf("Produto %c esgotado.\n",tipoConsumo);
                     if(conta == 1)
                         printf("Venda autorizada.\n");
                 }
@@ -179,10 +180,9 @@ void registaSaidaPavilhao(pavilhao p, char * linha){
     int numCidadao;
     char l;
     cliente c;
-    int perm;
+    int perm = 0;
     sscanf(linha,"%c %d",&l,&numCidadao);
     c = saiPavilhao(p, numCidadao, &perm);
-
     if ((sscanf(linha,"%c %d",&l,&numCidadao)!=2)||numCidadao==0)
            printf("Dados invalidos.\n");
     else if (perm == 0) {
@@ -190,7 +190,7 @@ void registaSaidaPavilhao(pavilhao p, char * linha){
     }else if (perm == 1){
         printf("Saida autorizada, valor a pagar %.2f euros.\n",contaCliente(c));
     }else{
-        printf("Pessoa nao esta no pavilhao\n");
+        printf("Pessoa nao esta no pavilhao.\n");
     }
 }
 //************************************************************************

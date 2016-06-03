@@ -134,7 +134,7 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
     cliente c = NULL;
     int tempo = 0;
     float conta = 0;
-
+    * perm = 2;
     if (existeElemDicionario(p->pessoas, &numCidadao)) {
         c = elementoDicionario(p->pessoas, &numCidadao);
         if (isTrampolins(c)) {
@@ -253,9 +253,7 @@ void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
     adicionaElemDicionario(p->pessoas,&aux, c);
     removeTrampolins(c);
     p->nTrampolinsLivres++;
-    
 }
-
 /***********************************************
  pessoaTrampolim - Verifica se existe a pessoa no trampolim dado.
  Parametros: 	p - pavilhao;	nome - nome da pessoa;
@@ -268,11 +266,8 @@ int pessoaTrampolim(pavilhao p, char * nome, int nTrampolim){
     }else if(nTrampolim >= p->nTrampolins){
         return 0;
     }else{
-        //printf("KEK %s\n", nome);
     	strcpy(nome,nomeCliente(p->trampolins[nTrampolim-1]));
-    	//printf("KEK 2 %s\n", nome);
     	return 2;
-
     }
 }
 
@@ -338,7 +333,6 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao){
     }else{
         c = elementoDicionario(p->pessoas, &numCidadao);
         adicionaConta(c, conta);
-       // printf("%.2f\n",conta);
         p->caixa += conta;
         return 1;
     }
