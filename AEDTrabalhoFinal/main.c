@@ -1,14 +1,14 @@
 /*
- * main_interpreta.c
+ * Módulo: main.c
+ * Data: 03/06/2016
+ * Descricao: Programa que gere as pessoas que estao num pavilhao
+ * que contem um bar e trampolins
+ * Autores: Miguel Real e Tomas Martins
  *
- *  Created on: 12 de April de 2016
- *      Author: carmen
  */
 #include <stdio.h>
 #include <ctype.h>
-
 /* TAD usado */
-
 #include "cliente.h"
 #include "pavilhao.h"
 #include "tuplo.h"
@@ -19,8 +19,60 @@
 #include "fila.h"
 #include "iterador.h"
 #define MAXLINHA 30
-
+/***********************************************
+ registaEntrada - regista a entrada da pessoa no pavilhao.
+ Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
+ numContribuinte- numero de contribuinte
+ Pre-condicoes: p != NULL && numCidadao > 0 && numContribuinte > 0
+ ***********************************************/
+void registaEntrada(pavilhao c, char * linha);
+/***********************************************
+ entradaFila - regista a entrada da pessoa na fila dos trampolins.
+ Parametros: 	p - pavilhao;	numCidadao - numero de cidadao
+ Pre-condicoes: p != NULL && numCidadao > 0
+ ***********************************************/;
+void entradaFila(pavilhao p, char * linha);
+/***********************************************
+ entradaTrampolins - entrada das pessoas da fila nos trampolins.
+ Parametros: 	p - pavilhao;	hora -horas de entrada;
+ minutos- minutos de entrada;
+ Pre-condicoes: p != NULL && minutos > 0 && hora > 0;
+ ***********************************************/
+void entradaTrampolins(pavilhao c, char * linha);
+/***********************************************
+ pessoaTrampolins - retorna o nome da pessoa que esta no trampolin dado.
+ Parametros: 	p - pavilhao;	nTrampolim - numero do trampolim;
+ Pre-condicoes: p != NULL && nTrampolim > 0;
+ ***********************************************/
+void pessoaTrampolins(pavilhao c , char * linha);
+/***********************************************
+ saiTrampolin - saida do cliente do trampolim.
+ Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
+ hora -horas de saida; minutos- minutos de saida;
+ Pre-condicoes: p != NULL && minutos > 0 && hora > 0 && numCidadao > 0
+ ***********************************************/
+void saiTrampolin(pavilhao p, char * linha);
+/***********************************************
+ registaCompra - regista a compra do cliente de um produto.
+ Parametros: 	p - pavilhao;	tipoConsumo- tipo do produto;
+ quantidade- quantidade; numCidadao- numero de Cidadao
+ Pre-condicoes: p != NULL && numCidadao > 0 && tipoConsumo!=NULL
+ && quantidade > 0;
+ ***********************************************/
+void registaCompra(pavilhao p, char * linha);
+/***********************************************
+ printfCaixa - retorna o valor da caixa.
+ Parametros: 	p - pavilhao;
+ Pre-condicoes: p != NULL;
+ ***********************************************/
+void printfCaixa(pavilhao p);
+/***********************************************
+ interpretador - funcao que retorna uma outra funcao consoante o comando imposto.
+ Parametros: 	p - pavilhao;
+ Pre-condicoes: p != NULL
+ ***********************************************/
 void interpretador(pavilhao r);
+
 
 int main(void){
     char linha[MAXLINHA];
@@ -121,28 +173,27 @@ void pessoaTrampolins(pavilhao c , char * linha){
     }
 }
 //************************************************************************
-
 void saiTrampolin(pavilhao p, char * linha){
     cliente c = NULL;
     int numCidadao;
     int hora;
     int minutos;
     char l;
-    sscanf(linha, "%c %d %d:%d",&l,&numCidadao,&hora,&minutos);
     c = clienteEmPavilhao(p,numCidadao);
     minutos += hora*60;
-    if (!(c == NULL)){
+    if (sscanf(linha, "%c %d %d:%d",&l,&numCidadao,&hora,&minutos) != 4) {
+        printf("Dados invalidos.\n");
+    }else if (!(c == NULL)){
         if(minutos > mEntrada(c) && isTrampolins(c)){
             saiTrampolins(p, minutos, numCidadao);
             printf("Saida trampolim autorizada.\n");
         }else{
-             printf("Saida trampolim nao autorizada.\n");
+            printf("Saida trampolim nao autorizada.\n");
         }
     }else{
         printf("Pessoa nao esta no pavilhao.\n");
     }
 }
-
 //************************************************************************
 
 void registaCompra(pavilhao p, char * linha){

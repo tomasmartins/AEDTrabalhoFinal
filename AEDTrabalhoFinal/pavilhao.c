@@ -226,13 +226,14 @@ cliente removeVecTrampolim(pavilhao p, int numCidadao){
     cliente c = NULL;
     int i;
     for (i = 0; i < p->nTrampolins; i++) {
-        if (cidadaoCliente(p->trampolins[i]) == numCidadao) {
-            c = p->trampolins[i];
-            p->trampolins[i] = NULL;
-            break;
+        if (p->trampolins[i] != NULL) {
+            if (cidadaoCliente(p->trampolins[i]) == numCidadao) {
+                c = p->trampolins[i];
+                p->trampolins[i] = NULL;
+                break;
+            }
         }
     }
-    
     return c;
 }
 
@@ -275,10 +276,11 @@ void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
  Pre-condicoes: p != NULL && nome != NULL && numTrampolim > 0
  ***********************************************/
 int pessoaTrampolim(pavilhao p, char * nome, int nTrampolim){
-    if (p->trampolins[nTrampolim-1] == NULL) {
-        return 1;
-    }else if(nTrampolim >= p->nTrampolins){
+    
+    if (nTrampolim > p->nTrampolins ) {
         return 0;
+    }else if(p->trampolins[nTrampolim-1] == NULL){
+        return 1;
     }else{
     	strcpy(nome,nomeCliente(p->trampolins[nTrampolim-1]));
     	return 2;
