@@ -166,12 +166,15 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
  ***********************************************/
 void fechaPavilhao(pavilhao p){
     iterador it = iteradorDicionario(p->pessoas);
+    cliente c;
     int perm;
+    saiFila(p);
     while (temSeguinteIterador(it)) {
-        saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
+        c = seguinteIterador(it);
+        saiPavilhao(p, cidadaoCliente(c), &perm);
         if (perm == 0 ) {
-            saiTrampolins(p, 24*60, cidadaoCliente(seguinteIterador(it)));
-            saiPavilhao(p, cidadaoCliente(seguinteIterador(it)), &perm);
+            saiTrampolins(p, 24*60, cidadaoCliente(c));
+            saiPavilhao(p, cidadaoCliente(c), &perm);
         }
     }
     destroiIterador(it);
@@ -187,7 +190,17 @@ void entraFilaTrampolins(pavilhao p , int numCidadao){
     adicionaElemFila(p->filaTrampolins,c);
     setTrampolins(c);
 }
-
+/***********************************************
+ saiFila - Retira todas as pessoa da fila para poder encerrar o pavilhao.
+ Parametros: 	p - pavilhao;
+ Pre-condicoes: p != NULL
+ ***********************************************/
+void saiFila(pavilhao p){
+    while (!vaziaFila(p->filaTrampolins)) {
+        cliente c = removeElemFila(p->filaTrampolins);
+        removeTrampolins(c);
+    }
+}
 /***********************************************
  adicionaVecTrampolim - adiciona uma pessoa ao vector dos trampolins.
  Parametros: 	p - pavilhao;	c - cliente;

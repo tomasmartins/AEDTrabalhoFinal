@@ -152,5 +152,10 @@ float calculaConta(pavilhao p , int quantidade , int tipo);
  && numCidadao > 0
  ***********************************************/
 int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao);
-
+/***********************************************
+ saiFila - Retira todas as pessoa da fila para poder encerrar o pavilhao.
+ Parametros: 	p - pavilhao;
+ Pre-condicoes: p != NULL
+ ***********************************************/
+void saiFila(pavilhao p);
 #endif /* pavilhao_H_ */
