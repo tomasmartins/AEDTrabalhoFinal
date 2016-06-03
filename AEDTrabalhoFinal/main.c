@@ -104,19 +104,22 @@ void OPENTHEGATES(pavilhao c, char * linha){
 //************************************************************************
 void pessoaTrampolins(pavilhao c , char * linha){
     int nTrampolin;
-    char nome[50], l;
+    char nome[50], l, scan;
     int perm;
-    sscanf(linha,"%c %d",&l,&nTrampolin);
-    perm = pessoaTrampolim(c, nome, nTrampolin);
-    if (perm == 0) {
-        printf("Trampolim inexistente.\n");
-    }else if (perm == 1){
-        printf("Trampolim vazio.\n");
+    scan = sscanf(linha,"%c %d",&l,&nTrampolin);
+    if(scan!=2 || nTrampolin==0){
+        printf("Dados invalidos.\n");
     }else{
-        printf("Pessoa %s esta no trampolim.\n", nome);
+        perm = pessoaTrampolim(c, nome, nTrampolin);
+        if (perm == 0) {
+            printf("Trampolim inexistente.\n");
+        }else if (perm == 1){
+            printf("Trampolim vazio.\n");
+        }else{
+            printf("Pessoa %s esta no trampolim.\n", nome);
+        }
     }
 }
-
 //************************************************************************
 
 void saiTrampolin(pavilhao p, char * linha){
@@ -129,7 +132,7 @@ void saiTrampolin(pavilhao p, char * linha){
     c = clienteEmPavilhao(p,numCidadao);
     minutos += hora*60;
     if (!(c == NULL)){
-        if(minutos > mEntrada(c)){
+        if(minutos > mEntrada(c) && isTrampolins(c)){
             saiTrampolins(p, minutos, numCidadao);
             printf("Saida trampolim autorizada.\n");
         }else{

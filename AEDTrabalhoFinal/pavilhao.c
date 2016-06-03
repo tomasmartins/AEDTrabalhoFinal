@@ -50,7 +50,7 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
     if (p==NULL)                                           // verifica se esta memoria foi allocada
         return NULL;
     p->pessoas = criaDicionario(INIPAV,0);                       // cria a fila de pessoas
-    if (p->pessoas==NULL){                                 // se n„o foi possivel criar a fila, vai libertar a memoria da pavilhao
+    if (p->pessoas==NULL){                                
         free(p);
         return NULL;
     }
@@ -60,7 +60,8 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
         free(p);
         return NULL;
     }
-    p->trampolins = malloc(sizeof(cliente)*nTrampolins);
+    p->trampolins = (cliente *) malloc(sizeof(cliente)*nTrampolins);
+    
     if (p->trampolins == NULL) {
         destroiDicionario(p->pessoas);
         destroiFila(p->filaTrampolins);
@@ -77,7 +78,7 @@ pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float v
     p->nTrampolins = nTrampolins;
     p->nTrampolinsLivres = nTrampolins ;
     for (i = 0; i < nTrampolins; i++) {
-            p->trampolins = NULL;
+            p->trampolins[i] = NULL;
         }
     return p;
 }
@@ -226,7 +227,7 @@ cliente removeVecTrampolim(pavilhao p, int numCidadao){
     int i;
     for (i = 0; i < p->nTrampolins; i++) {
         if (cidadaoCliente(p->trampolins[i]) == numCidadao) {
-            c=p->trampolins[i];
+            c = p->trampolins[i];
             p->trampolins[i] = NULL;
             break;
         }

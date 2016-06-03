@@ -7,7 +7,6 @@
 
 #ifndef pavilhao_H_
 #define pavilhao_H_
-
 /* Tipo do TAD pavilhao */
 typedef struct _pavilhao * pavilhao;
 
@@ -158,4 +157,5 @@ int consumo(pavilhao p ,char tipo ,int quantidade, int numCidadao);
  Pre-condicoes: p != NULL
  ***********************************************/
 void saiFila(pavilhao p);
+
 #endif /* pavilhao_H_ */
