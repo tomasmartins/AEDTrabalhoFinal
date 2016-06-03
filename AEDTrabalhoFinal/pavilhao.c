@@ -276,7 +276,6 @@ void saiTrampolins(pavilhao p, int nTempo , int numCidadao){
  Pre-condicoes: p != NULL && nome != NULL && numTrampolim > 0
  ***********************************************/
 int pessoaTrampolim(pavilhao p, char * nome, int nTrampolim){
-    
     if (nTrampolim > p->nTrampolins ) {
         return 0;
     }else if(p->trampolins[nTrampolim-1] == NULL){

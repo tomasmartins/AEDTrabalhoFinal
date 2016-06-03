@@ -1,5 +1,5 @@
 /*
- * MÃ³dulo: main.c
+ * Módulo: main.c
  * Data: 03/06/2016
  * Descricao: Programa que gere as pessoas que estao num pavilhao
  * que contem um bar e trampolins
@@ -8,7 +8,9 @@
  */
 #include <stdio.h>
 #include <ctype.h>
+
 /* TAD usado */
+
 #include "cliente.h"
 #include "pavilhao.h"
 #include "tuplo.h"
@@ -19,6 +21,7 @@
 #include "fila.h"
 #include "iterador.h"
 #define MAXLINHA 30
+
 /***********************************************
  registaEntrada - regista a entrada da pessoa no pavilhao.
  Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
@@ -26,12 +29,14 @@
  Pre-condicoes: p != NULL && numCidadao > 0 && numContribuinte > 0
  ***********************************************/
 void registaEntrada(pavilhao c, char * linha);
+
 /***********************************************
- entradaFila - regista a entrada da pessoa na fila dos trampolins.
+entradaFila - regista a entrada da pessoa na fila dos trampolins.
  Parametros: 	p - pavilhao;	numCidadao - numero de cidadao
  Pre-condicoes: p != NULL && numCidadao > 0
  ***********************************************/;
 void entradaFila(pavilhao p, char * linha);
+
 /***********************************************
  entradaTrampolins - entrada das pessoas da fila nos trampolins.
  Parametros: 	p - pavilhao;	hora -horas de entrada;
@@ -39,12 +44,14 @@ void entradaFila(pavilhao p, char * linha);
  Pre-condicoes: p != NULL && minutos > 0 && hora > 0;
  ***********************************************/
 void entradaTrampolins(pavilhao c, char * linha);
+
 /***********************************************
  pessoaTrampolins - retorna o nome da pessoa que esta no trampolin dado.
  Parametros: 	p - pavilhao;	nTrampolim - numero do trampolim;
  Pre-condicoes: p != NULL && nTrampolim > 0;
  ***********************************************/
 void pessoaTrampolins(pavilhao c , char * linha);
+
 /***********************************************
  saiTrampolin - saida do cliente do trampolim.
  Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
@@ -52,6 +59,7 @@ void pessoaTrampolins(pavilhao c , char * linha);
  Pre-condicoes: p != NULL && minutos > 0 && hora > 0 && numCidadao > 0
  ***********************************************/
 void saiTrampolin(pavilhao p, char * linha);
+
 /***********************************************
  registaCompra - regista a compra do cliente de um produto.
  Parametros: 	p - pavilhao;	tipoConsumo- tipo do produto;
@@ -60,12 +68,14 @@ void saiTrampolin(pavilhao p, char * linha);
  && quantidade > 0;
  ***********************************************/
 void registaCompra(pavilhao p, char * linha);
+
 /***********************************************
  printfCaixa - retorna o valor da caixa.
  Parametros: 	p - pavilhao;
  Pre-condicoes: p != NULL;
  ***********************************************/
 void printfCaixa(pavilhao p);
+
 /***********************************************
  interpretador - funcao que retorna uma outra funcao consoante o comando imposto.
  Parametros: 	p - pavilhao;
@@ -73,12 +83,11 @@ void printfCaixa(pavilhao p);
  ***********************************************/
 void interpretador(pavilhao r);
 
-
 int main(void){
     char linha[MAXLINHA];
     int nTrampolins,sCafe,sSumo,sBolo;
     float vCafe,vSumo,vBolo;
-    //setvbuf(stdout,NULL,_IONBF, 0);
+    setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d",&nTrampolins);
     fgets(linha, MAXLINHA, stdin);
@@ -116,7 +125,6 @@ void registaEntrada(pavilhao c, char * linha){
     
 }
 //***********************************************************************
-
 void entradaFila(pavilhao p, char * linha){
     int numCidadao;
     cliente c = NULL;
@@ -135,7 +143,7 @@ void entradaFila(pavilhao p, char * linha){
     }
 }
 //************************************************************************
-void OPENTHEGATES(pavilhao c, char * linha){
+void entradaTrampolins(pavilhao c, char * linha){
     int hora, minutos, tEntrada, scan;
     char l;
     scan=sscanf(linha,"%c %d:%d",&l,&hora,&minutos);
@@ -178,24 +186,25 @@ void saiTrampolin(pavilhao p, char * linha){
     int numCidadao;
     int hora;
     int minutos;
+    int scan;
     char l;
+    scan = sscanf(linha, "%c %d %d:%d",&l,&numCidadao,&hora,&minutos);
     c = clienteEmPavilhao(p,numCidadao);
     minutos += hora*60;
-    if (sscanf(linha, "%c %d %d:%d",&l,&numCidadao,&hora,&minutos) != 4) {
-        printf("Dados invalidos.\n");
-    }else if (!(c == NULL)){
+    if(scan!=4 || numCidadao==0)
+    	printf("Dados invalidos.\n");
+    else if (!(c == NULL)){
         if(minutos > mEntrada(c) && isTrampolins(c)){
             saiTrampolins(p, minutos, numCidadao);
             printf("Saida trampolim autorizada.\n");
         }else{
-            printf("Saida trampolim nao autorizada.\n");
+             printf("Saida trampolim nao autorizada.\n");
         }
     }else{
         printf("Pessoa nao esta no pavilhao.\n");
     }
 }
 //************************************************************************
-
 void registaCompra(pavilhao p, char * linha){
     char tipoConsumo,l;
     int quantidade, numCidadao , scan;
@@ -229,7 +238,6 @@ void registaCompra(pavilhao p, char * linha){
     }
 }
 //************************************************************************
-
 void registaSaidaPavilhao(pavilhao p, char * linha){
     int numCidadao;
     char l;
@@ -261,7 +269,7 @@ void interpretador(pavilhao c){
         switch (cmd){
             case 'E': registaEntrada(c,linha);break;
             case 'F': entradaFila(c, linha);break;
-            case 'L': OPENTHEGATES(c,linha); break;
+            case 'L': entradaTrampolins(c,linha); break;
             case 'T': pessoaTrampolins(c,linha); break;
             case 'S': saiTrampolin(c, linha);break;
             case 'V': registaCompra(c, linha);break;
