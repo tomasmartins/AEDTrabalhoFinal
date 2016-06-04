@@ -119,7 +119,7 @@ int pessoaTrampolim(pavilhao p, char * nome, int nTrampolim);
  Parametros: 	p - pavilhao;
  Pre-condicoes: p != NULL
  ***********************************************/
-int trampolinsLivres(pavilhao c);
+int trampolinsLivres(pavilhao P);
 
 /***********************************************
  vaziaFilaTrampolins - retorna 1 se a fila estiver vazia.
