@@ -12,11 +12,11 @@ typedef struct _cliente * cliente;
 
 /***********************************************
  criaCliente - Criacao da instancia da estrutura associada a uma cliente.
- Parametros: numC - numero contribuinte;
+ Parametros: numContribuinte - numero contribuinte;
  numCidadao - numero cidadao;
  nome - nome
  Retorno: 	apontador para a instancia criada
- Pre-condicoes: 	numC > 0 && numCidadao > 0 && (nome != NULL)
+ Pre-condicoes: numContribuinte > 0 && numCidadao > 0 && (nome != NULL)
  ***********************************************/
 cliente criaCliente(int numContribuinte, int numCidadao, char * nome);
 

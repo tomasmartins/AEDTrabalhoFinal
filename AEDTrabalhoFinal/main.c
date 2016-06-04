@@ -28,10 +28,10 @@
  numContribuinte- numero de contribuinte
  Pre-condicoes: p != NULL && numCidadao > 0 && numContribuinte > 0
  ***********************************************/
-void registaEntrada(pavilhao c, char * linha);
+void registaEntrada(pavilhao p, char * linha);
 
 /***********************************************
-entradaFila - regista a entrada da pessoa na fila dos trampolins.
+ entradaFila - regista a entrada da pessoa na fila dos trampolins.
  Parametros: 	p - pavilhao;	numCidadao - numero de cidadao
  Pre-condicoes: p != NULL && numCidadao > 0
  ***********************************************/;
@@ -43,14 +43,14 @@ void entradaFila(pavilhao p, char * linha);
  minutos- minutos de entrada;
  Pre-condicoes: p != NULL && minutos > 0 && hora > 0;
  ***********************************************/
-void entradaTrampolins(pavilhao c, char * linha);
+void entradaTrampolins(pavilhao p, char * linha);
 
 /***********************************************
  pessoaTrampolins - retorna o nome da pessoa que esta no trampolin dado.
  Parametros: 	p - pavilhao;	nTrampolim - numero do trampolim;
  Pre-condicoes: p != NULL && nTrampolim > 0;
  ***********************************************/
-void pessoaTrampolins(pavilhao c , char * linha);
+void pessoaTrampolins(pavilhao p , char * linha);
 
 /***********************************************
  saiTrampolin - saida do cliente do trampolim.
@@ -81,13 +81,13 @@ void printfCaixa(pavilhao p);
  Parametros: 	p - pavilhao;
  Pre-condicoes: p != NULL
  ***********************************************/
-void interpretador(pavilhao r);
+void interpretador(pavilhao p);
 
 int main(void){
     char linha[MAXLINHA];
     int nTrampolins,sCafe,sSumo,sBolo;
     float vCafe,vSumo,vBolo;
-    setvbuf(stdout,NULL,_IONBF, 0);
+    //setvbuf(stdout,NULL,_IONBF, 0);
     fgets(linha, MAXLINHA, stdin);
     sscanf(linha,"%d",&nTrampolins);
     fgets(linha, MAXLINHA, stdin);
@@ -107,22 +107,20 @@ int main(void){
     return 0;
 }
 //***********************************************************************
-void registaEntrada(pavilhao c, char * linha){
+void registaEntrada(pavilhao p, char * linha){
     char  nome[50];
     char l;
     int numCidadao, numContribuinte , scan;
     scan = sscanf(linha,"%c %d %d",&l,&numCidadao,&numContribuinte);
     fgets(linha, MAXLINHA, stdin);
-    
     if (scan!=3 || sscanf(linha,"%[^\n]s",nome) == 0)
         printf("Dados invalidos.\n");
-    else if(clienteEmPavilhao(c, numCidadao))
+    else if(clienteEmPavilhao(p, numCidadao))
         printf("Pessoa ja no pavilhao.\n");
     else{
-        entraPavilhao(c, numContribuinte, numCidadao, nome);
+        entraPavilhao(p, numContribuinte, numCidadao, nome);
         printf("Entrada autorizada.\n");
     }
-    
 }
 //***********************************************************************
 void entradaFila(pavilhao p, char * linha){
@@ -143,26 +141,25 @@ void entradaFila(pavilhao p, char * linha){
     }
 }
 //************************************************************************
-void entradaTrampolins(pavilhao c, char * linha){
+void entradaTrampolins(pavilhao p, char * linha){
     int hora, minutos, tEntrada, scan;
     char l;
     scan=sscanf(linha,"%c %d:%d",&l,&hora,&minutos);
     tEntrada=(60*hora)+minutos;
-    
     if(scan!=3)
-    	printf("Dados invalidos.\n");
-    else if((trampolinsLivres(c))==0){
+        printf("Dados invalidos.\n");
+    else if((trampolinsLivres(p))==0){
         printf("Trampolins ocupados.\n");
     }else{
-        if(vaziaFilaTrampolins(c)){
+        if(vaziaFilaTrampolins(p)){
             printf("Fila vazia.\n");
         }else{
-            printf("Entrada de %d pessoas nos trampolins.\n", entraTrampolins(c, tEntrada));
+            printf("Entrada de %d pessoas nos trampolins.\n", entraTrampolins(p, tEntrada));
         }
     }
 }
 //************************************************************************
-void pessoaTrampolins(pavilhao c , char * linha){
+void pessoaTrampolins(pavilhao p , char * linha){
     int nTrampolin;
     char nome[50], l, scan;
     int perm;
@@ -170,7 +167,7 @@ void pessoaTrampolins(pavilhao c , char * linha){
     if(scan!=2 || nTrampolin==0){
         printf("Dados invalidos.\n");
     }else{
-        perm = pessoaTrampolim(c, nome, nTrampolin);
+        perm = pessoaTrampolim(p, nome, nTrampolin);
         if (perm == 0) {
             printf("Trampolim inexistente.\n");
         }else if (perm == 1){
@@ -192,13 +189,13 @@ void saiTrampolin(pavilhao p, char * linha){
     c = clienteEmPavilhao(p,numCidadao);
     minutos += hora*60;
     if(scan!=4 || numCidadao==0)
-    	printf("Dados invalidos.\n");
+        printf("Dados invalidos.\n");
     else if (!(c == NULL)){
         if(minutos > mEntrada(c) && isTrampolins(c)){
             saiTrampolins(p, minutos, numCidadao);
             printf("Saida trampolim autorizada.\n");
         }else{
-             printf("Saida trampolim nao autorizada.\n");
+            printf("Saida trampolim nao autorizada.\n");
         }
     }else{
         printf("Pessoa nao esta no pavilhao.\n");
@@ -214,7 +211,7 @@ void registaCompra(pavilhao p, char * linha){
     tipoConsumo = toupper(tipoConsumo);
     if (scan !=4 || quantidade==0 || numCidadao == 0|| ((tipoConsumo!='C') && (tipoConsumo!='B') && (tipoConsumo!='S'))){
         printf("Dados invalidos.\n");
-
+        
     }else{
         c = clienteEmPavilhao(p, numCidadao);
         if(c == NULL)
@@ -246,7 +243,7 @@ void registaSaidaPavilhao(pavilhao p, char * linha){
     sscanf(linha,"%c %d",&l,&numCidadao);
     c = saiPavilhao(p, numCidadao, &perm);
     if ((sscanf(linha,"%c %d",&l,&numCidadao)!=2)||numCidadao==0)
-           printf("Dados invalidos.\n");
+        printf("Dados invalidos.\n");
     else if (perm == 0) {
         printf("Saida nao autorizada.\n");
     }else if (perm == 1){
@@ -260,29 +257,29 @@ void printfCaixa(pavilhao p){
     printf("%.2f\n",caixaPavilhao(p));
 }
 //************************************************************************
-void interpretador(pavilhao c){
+void interpretador(pavilhao p){
     char linha[25], cmd;
     fgets(linha,20,stdin);
     cmd = toupper(linha[0]);
     while (cmd!='X'){
         /* Tratar comando */
         switch (cmd){
-            case 'E': registaEntrada(c,linha);break;
-            case 'F': entradaFila(c, linha);break;
-            case 'L': entradaTrampolins(c,linha); break;
-            case 'T': pessoaTrampolins(c,linha); break;
-            case 'S': saiTrampolin(c, linha);break;
-            case 'V': registaCompra(c, linha);break;
-            case 'Q': registaSaidaPavilhao(c, linha);break;
-            case 'C': printfCaixa(c);break;
+            case 'E': registaEntrada(p,linha);break;
+            case 'F': entradaFila(p, linha);break;
+            case 'L': entradaTrampolins(p,linha); break;
+            case 'T': pessoaTrampolins(p,linha); break;
+            case 'S': saiTrampolin(p, linha);break;
+            case 'V': registaCompra(p, linha);break;
+            case 'Q': registaSaidaPavilhao(p, linha);break;
+            case 'C': printfCaixa(p);break;
             default: printf("Comando invalido.\n");break;
         }
         fgets(linha,20,stdin);
         cmd = toupper(linha[0]);
     }
-    fechaPavilhao(c);
-    printf("Caixa: %.2f euros.\n", caixaPavilhao(c));
-    printf("Stock cafe: %d.\n",stock(c,0));
-    printf("Stock sumo: %d.\n",stock(c,1));
-    printf("Stock bolo: %d.\n",stock(c,2));
+    fechaPavilhao(p);
+    printf("Caixa: %.2f euros.\n", caixaPavilhao(p));
+    printf("Stock cafe: %d.\n",stock(p,0));
+    printf("Stock sumo: %d.\n",stock(p,1));
+    printf("Stock bolo: %d.\n",stock(p,2));
 }

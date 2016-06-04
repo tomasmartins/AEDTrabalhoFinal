@@ -42,14 +42,15 @@ struct _pavilhao{
  sBolo - stock de bolo;
  vBolo - preco do bolo;
  Retorno: 	apontador para a instancia criada
- Pre-condicoes: nPessoas > 0 && precoNormal > 0
+ Pre-condicoes: nPessoas > 0 && precoNormal > 0 && sCafe > 0 && vCafe > 0
+ && sSumo > 0 && vSumo > 0 && sBolo > 0 && vBolo > 0
  ***********************************************/
 pavilhao criaPavilhao(int nTrampolins, int sCafe, float vCafe ,int sSumo,float vSumo,int sBolo , float vBolo ){
     int i;
-	pavilhao p = (pavilhao) malloc(sizeof(struct _pavilhao)); // alloca memoria para a estrutura da pavilhao
-    if (p==NULL)                                           // verifica se esta memoria foi allocada
+	pavilhao p = (pavilhao) malloc(sizeof(struct _pavilhao));
+    if (p==NULL)
         return NULL;
-    p->pessoas = criaDicionario(INIPAV,0);                       // cria a fila de pessoas
+    p->pessoas = criaDicionario(INIPAV,0);                      
     if (p->pessoas==NULL){                                
         free(p);
         return NULL;
@@ -159,7 +160,6 @@ cliente saiPavilhao(pavilhao p, int numCidadao, int * perm){
         return NULL;
     }
 }
-
 /***********************************************
  fechaPavilhao - Fecha o pavilhao, atualiza as contas e as pessoas.
  Parametros: 	p - pavilhao;
@@ -183,8 +183,8 @@ void fechaPavilhao(pavilhao p){
 
 /***********************************************
  entraFilaTrampolins - Move a pessoa para a fila dos trampolins.
- Parametros: 	p - pavilhao;	numContribuinte - numero de contribuinte;
- Pre-condicoes: p != NULL && numContribuinte > 0
+ Parametros: 	p - pavilhao;	numCidadao - numero de cidadao;
+ Pre-condicoes: p != NULL && numCidadao > 0
  ***********************************************/
 void entraFilaTrampolins(pavilhao p , int numCidadao){
     cliente c = elementoDicionario(p->pessoas, &numCidadao);

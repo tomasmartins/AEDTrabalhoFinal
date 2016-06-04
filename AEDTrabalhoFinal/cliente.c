@@ -74,8 +74,8 @@ char * nomeCliente(cliente c){
  Parametros:		c - cliente
  Pre-condicoes: 	c != NULL
  ***********************************************/
-int contribuinteCliente(cliente p){
-    return p->numContribuinte;
+int contribuinteCliente(cliente c){
+    return c->numContribuinte;
 }
 
 /***********************************************
@@ -83,8 +83,8 @@ int contribuinteCliente(cliente p){
  Parametros:		c - cliente
  Pre-condicoes: 	c != NULL
  ***********************************************/
-int cidadaoCliente(cliente p){
-    return p->numCidadao;
+int cidadaoCliente(cliente c){
+    return c->numCidadao;
 }
 
 /***********************************************
@@ -97,7 +97,7 @@ float contaCliente(cliente c){
 }
 
 /***********************************************
- entraTempo - guarda os tempo de entrda em minutos no cliente.
+ entraTempo - guarda os tempo de entrada em minutos no cliente.
  Parametros:		c - cliente
  Pre-condicoes: 	c != NULL
  ***********************************************/
