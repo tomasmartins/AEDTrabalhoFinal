@@ -1,8 +1,8 @@
 /*
- * pavilhao.h
- *
- *  Created on: 16 de Abr de 2016
- *      Author: fernanda
+ * Módulo: pavilhao.h
+ * Data: 03/06/2016
+ * Descricao: ficheiro .h do TAD pavilhao
+ * Autores: Miguel Real e Tomas Martins
  */
 
 #ifndef pavilhao_H_

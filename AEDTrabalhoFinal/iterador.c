@@ -1,10 +1,6 @@
-//
-//  iteraVector.c
-//  Parque de Estacionamento
-//
-//  Created by Tomás Martins on 01/04/16.
-//  Copyright © 2016 Tomás Martins. All rights reserved.
-//
+/*
+*  iterador.c
+*/
 #include <stdlib.h>
 #include "iterador.h"
 

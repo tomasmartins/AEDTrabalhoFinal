@@ -1,10 +1,9 @@
 /*
- * cliente.h
- *
- *  Created on: 16 de Abr de 2016
- *      Author: fernanda
+ * Módulo: cliente.h
+ * Data: 03/06/2016
+ * Descricao: ficheiro .h do TAD do cliente
+ * Autores: Miguel Real e Tomas Martins
  */
-
 #ifndef CLIENTE_H_
 #define CLIENTE_H_
 

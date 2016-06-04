@@ -1,8 +1,10 @@
 /*
- * cliente.c
+ * Módulo: cliente.c
+ * Data: 03/06/2016
+ * Descricao: TAD do cliente
+ * Autores: Miguel Real e Tomas Martins
  *
  */
-
 #include <stdlib.h>
 #include <string.h>
 

@@ -1,9 +1,10 @@
 /*
- * pavilhao.c
+ * Módulo: pavilhao.c
+ * Data: 03/06/2016
+ * Descricao: TAD do pavilhao usado
+ * Autores: Miguel Real e Tomas Martins
  *
  */
-// fazer todo o TAD usando a estrutura aqui dada
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
